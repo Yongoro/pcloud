@@ -1,4 +1,4 @@
-first_use_git
+personal cloud
 =============
 
-first use of git to create repository
+creation of the repository
