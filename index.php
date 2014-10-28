@@ -20,7 +20,7 @@ $app['debug'] = true;
 
 //enregistrement au langage de templating TWIG et précision de l'emplacement des templates
 $app->register(new Silex\Provider\TwigServiceProvider(), 
-               array('twig.path' => './pcloud/views'));
+               array('twig.path' => './pcloud/views',));
 
 //souscription du service des sessions
 $app->register(new Silex\Provider\SessionServiceProvider());
@@ -48,7 +48,7 @@ $app->get('/hello/{name}', function ($name) use ($app) {
 
 //exemple utilisation de twig et binding de la route avec un certain nom
 $app->get('/', function(Application $app) {
-    return $app['twig']->render('admin.html', array(
+    return $app['twig']->render('admin.php', array(
         'nom' => 'NDIAYE'
     ));
 })->bind('homepage');
