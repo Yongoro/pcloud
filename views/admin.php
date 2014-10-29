@@ -11,9 +11,13 @@
 
     <body>
     	<div id="bloc_page">
+    		<!-- definition header bande superieure au menu navigation -->
+    		<header id="logo">
+    			<p> PCLOUD ADMINISTRATION</p>
+    		</header>
 
-    		<!-- definition du header -->
-    		<header>
+    		<!-- definition du header pour menu navigation-->
+    		<header id="menu">
 			    <nav role="navigation">
 			        <ul>
 			            <li><a href="#" title="file management">FILE</a><span class="darrow">&#9660;</span>
@@ -59,13 +63,13 @@
 			        </ul>
 			    </nav>
 			</header>
-			<!-- fin header -->
+			<!-- fin header menu navigation-->
 
-			<!--
-			<div>
+			
+			<section id="welcome">
     			<h1> {{nom}} 'S ADMIN PAGE</h1>
-    		</div>
-    		-->
+    		</section>
+    		
 
 			<!-- definition du footer -->
 

@@ -8,32 +8,46 @@ body{
     font-weight:bold;
     font-family:'Architects Daughter', cursive, Arial;
     background-color: #009999;/*#339999;*/
-    padding: 50px;
-}
-
-/* header */
-/*================================================================*/
-/*================================================================*/
-
-header{
-    position: absolute;
-    top:0;
-    left: 0;
+    /*padding: 50px;*/
 }
 
 /* bloc page */
 /*================================================================*/
 /*================================================================*/
 #bloc_page{
-    width: 800px;
-    height: 600px;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    /*position: relative;*/
+    display: block;
 }
 
-
-h1{
+/* header */
+/*================================================================*/
+/*================================================================*/
+header#logo{
+    height: 85px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+header#logo p{
+    height: 80px;
+    width: 100%;
     text-align: center;
-    border-bottom: 2px solid #009;
-    margin-bottom: 50px;
+    font-size: 40px;
+    margin-top: 0px;
+    border: 15px solid #006666;
+    border-radius: 15px;
+}
+
+header#menu{
+    position: absolute;
+    top:113px;
+    left: 0;
+    height: 70px;
 }
 
 /* navigation menu*/
@@ -88,11 +102,11 @@ nav ul .sub1 li{
 
 /*effect on anchor of the direct child keeping track of the sequence*/
 nav ul li:hover > a{
-    background-color: #e9e9e9;
+    background-color: #e900e9;
 }
 
 nav ul li:hover a:hover{
-    background-color: ;
+    background-color: yellow;
 }
 
 /*working on the submenu*/
@@ -136,4 +150,11 @@ nav ul .sub1 li:hover .sub2{
     right: 4px;
 }
 
-
+/** Content's page **/
+/*===========================================================================================*/
+/*===========================================================================================*/
+#welcome{
+    position: absolute;
+    top: 270px;
+    left:290px;
+}
