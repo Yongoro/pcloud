@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href='http://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+        <meta charset="utf-8" />
+        <meta name="viewport"  content=" width=320 ,user-scalable=no, minimum-scale=1.0 maximum-scale=1.0"  />
+        <link rel="stylesheet" href="#" type="text/css"/>
+        <script>
+               
+                //definizione del gestore per gestire dati immessi nella form
+                function checkForm()
+                {
+                   var c1=document.getElementById("pass1").selectedIndex;
+                   var c2=document.getElementById("pass2").selectedIndex;
+                   
+                   var c1o=document.getElementById("email1").options;
+                   var c2o=document.getElementById("email2").options;
+                   
+                    if(c1o[c1].index!=c2o[c2].index )
+                    {
+                       
+                       //document.subscription.submit;
+                       return true;
+                    }
+                    else
+                    {
+                       alert("different entries.");
+                       return false;
+                   }
+                }
+        </script>
+        <title>Subscription </title>
+    </head>
+    <body>
+        
+    <header>
+    <nav role="navigation">
+            <ul>
+                <li><a href="#" title="exemple" target="_blank">test</a></li>
+                <li><a href="#" title="expl" target="_blank">Contact</a></li>
+                <li><a href="#">Autres</a></li>
+            </ul>
+                        
+        </nav>
+        <h1 >
+            subcription page
+        </h1>
+    </header>
+    
+    <section id="">
+
+        <form id="user_login" name="input" action="index.php/login" autocomplete="on" method="post" onSubmit=" return checkForm()">
+            <fieldset name="" class="field1">
+                <legend> <em> User login</em></legend>
+                <p id="msg_user_login">
+                            
+                    <em> {{ confirmTextLogin }}</em>
+                            
+                </p>
+                <input type="text" name="pseudo" id="pseudo" required class="input" placeholder="pseudo" value=""> <br>
+                <input type="password" name="pass1" id="pass1" required class="input" placeholder="your password" value=""> <br>
+            </fieldset>
+            <input id="submit" type="submit" value="Connect"> 
+        </form>    
+        <form id="user_subcription" name="input" action="/index.php/accueil" autocomplete="on" method="post" onSubmit=" return checkForm()">
+                           
+            <fieldset name="user_subscription" class="field1">
+                <legend><em>subscription</em></legend>
+                <p id="msg_subcription">                    
+                    <em> {{ confirmText }}</em>                         
+                </p>
+                <input type="text" name="pseudo" id="pseudo" required class="input" placeholder="pseudo" value=""> <br>
+                <input type="text" name="name" id="name" required class="input" placeholder="name" value=""> <br>
+                <input type="text" name="surname" id="surname" required class="input" placeholder="surname" value=""> <br>
+                <input type="password" name="pass1" id="pass1" required class="input" placeholder="your password" value=""> <br>
+                <input type="password" name="pass2" id="pass2" required class="input" placeholder="confirm password" value=""> <br>
+                <input type="mail" name="mail1" id="mail1" required class="input" placeholder="your email" value=""> <br>
+                <input type="mail" name="mail2" id="mail2" required class="input" placeholder="confirm email" value=""> <br>
+                
+            </fieldset>
+            <br>
+            <input id="submit" type="submit" value="Subscribe">            
+        </form>
+    </section>
+    <footer>
+        
+    </footer>
+    </body>
+</html>

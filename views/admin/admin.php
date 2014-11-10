@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>Administration form</title>
-        <link rel='stylesheet' href='/silex/web/pcloud/views/admin.css' type='text/css'/> 
+        <link rel='stylesheet' href='pcloud/web/views/admin.css' type='text/css'/> 
         <link href='http://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
         <meta charset="utf-8" />
         <meta name="viewport"  content=" width=320 ,user-scalable=no, minimum-scale=1.0 maximum-scale=1.0"  />
