@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html >
+<head>
+	<title>File uploading</title>
+	 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+        <script type="text/javascript">
+         	$(document).ready(function(){         
+         		$("#upimg").click(function(){
+         			$("#form_FileUpload").trigger("click");
+         		});
+        </script>
+	<style>
+		 form{
+		 	position: absolute;
+		 	top: 10px; /*rendre la form invisible en l'envoyant au dessus du cadre visible de l'ecran*/
+		 }
+		 #upimg{
+		 	cursor:pointer;
+		 }
+		 #upimg:hover{
+		 	box-shadow:1px 1px 3px #cdcdcd;
+		 }
+	</style>
+</head>
+<body>
+	<b>{{message}}</b>
+	<form action="/index.php/file/upload" method="post" {{ form_enctype(form) }} >		
+			{{ form_widget(form) }}
+		<input type="submit" name="upload"/>
+	</form>
+    <img src="../../web/images/upload.png" id="upimg"/>
+</body>
+</html>

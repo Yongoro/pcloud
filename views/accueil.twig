@@ -2,9 +2,9 @@
 <html>
     <head>
         <link href='http://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+        <link rel='stylesheet' href='/web/views/accueil.css' type='text/css'/> 
         <meta charset="utf-8" />
-        <meta name="viewport"  content=" width=320 ,user-scalable=no, minimum-scale=1.0 maximum-scale=1.0"  />
-        <link rel="stylesheet" href="#" type="text/css"/>
+        <meta name="viewport"  content=" width=320 ,user-scalable=no, minimum-scale=1.0 maximum-scale=1.0"  />        
         <script>
                
                 //definizione del gestore per gestire dati immessi nella form
@@ -43,13 +43,13 @@
                         
         </nav>
         <h1 >
-            subcription page
+            <em>w</em>elcome page
         </h1>
     </header>
     
     <section id="">
 
-        <form id="user_login" name="input" action="index.php/login" autocomplete="on" method="post" onSubmit=" return checkForm()">
+        <form id="user_login" name="input" action="/index.php/login" autocomplete="on" method="post" onSubmit=" return checkForm()">
             <fieldset name="" class="field1">
                 <legend> <em> User login</em></legend>
                 <p id="msg_user_login">
@@ -60,13 +60,13 @@
                 <input type="text" name="pseudo" id="pseudo" required class="input" placeholder="pseudo" value=""> <br>
                 <input type="password" name="pass1" id="pass1" required class="input" placeholder="your password" value=""> <br>
             </fieldset>
-            <input id="submit" type="submit" value="Connect"> 
+            <input id="submit" type="submit" value="Login"> 
         </form>    
-        <form id="user_subcription" name="input" action="/index.php/accueil" autocomplete="on" method="post" onSubmit=" return checkForm()">
+        <form id="user_signup" name="input" action="/index.php/signup" autocomplete="on" method="post" onSubmit=" return checkForm()">
                            
-            <fieldset name="user_subscription" class="field1">
+            <fieldset name="user_signup" class="field1">
                 <legend><em>subscription</em></legend>
-                <p id="msg_subcription">                    
+                <p id="msg_signup">                    
                     <em> {{ confirmText }}</em>                         
                 </p>
                 <input type="text" name="pseudo" id="pseudo" required class="input" placeholder="pseudo" value=""> <br>

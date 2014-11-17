@@ -1,0 +1,18 @@
+#user_inscription em em{
+	color: red;
+}
+
+
+header h1 em {
+	color: blue;
+	text-transform: capitalize;
+	font-size: 150%;
+}
+
+body{
+	/*text-align:center;*/
+    font-weight:bold;
+    font-family:'Architects Daughter', cursive, Arial;
+    background-color: gainsboro; /*#009999; *//*#339999;*/
+    /*padding: 50px;*/
+}
