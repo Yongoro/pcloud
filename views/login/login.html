@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Personal Cloud | Y. Cloud</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport"  content=" width=320 ,user-scalable=no, minimum-scale=1.0 maximum-scale=1.0"  />        
+        <link rel="stylesheet" type="text/css" href="/pcloud/views/login/login.css" />	
+    </head>
+    <body>
+		<div class="wrapper">
+			<h1>Personal Cloud | Y. Cloud</h1>
+			<h2><span>Login or Register </span> to enjoy the Life</h2>
+			<div class="content">
+				<div id="form_wrapper" class="form_wrapper">
+					<form class="register" method="POST" action="/pcloud/index.php/signup">
+						<h3>Register</h3>
+						<p id="msg_signup">                            
+		                    <span><em> {{ confirmText}}</em> </span>                           
+		                </p>
+						<div class="column">
+							<div>
+								<label>Username:</label>
+								<input type="text" placeholder="Pseudo" name="pseudo" id="pseudo" required/>
+								<span class="error">This is an error</span>
+							</div>
+							<div>
+								<label>First Name:</label>
+								<input type="text" placeholder="Name" name="name" id="name" required/>
+								<span class="error">This is an error</span>
+							</div>
+							<div>
+								<label>Last Name:</label>
+								<input type="text" placeholder="Surname" name="surname" id="surname" required/>
+								<span class="error">This is an error</span>
+							</div>
+							<div>
+								<label>Sex:</label>
+								<div><input type="radio"  name="gender"  value="male"/> Male</div>
+								<div><input type="radio"  name="gender"  value="female"/>Female</div>
+								<span class="error">This is an error</span>
+							</div>
+
+						</div>
+						<div class="column">
+							<div>
+								<label>Email:</label>
+								<input type="text" placeholder="example@email.com" name="mail1" id="mail1" required/>
+								<span class="error">This is an error</span>
+							</div>
+							<div>
+								<label>Confirm Email:</label>
+								<input type="text" placeholder="example@email.com" name="mail2" id="mail2" required/>
+								<span class="error">This is an error</span>
+							</div>
+							<div>
+								<label>Password:</label>
+								<input type="password" placeholder="********" name="pass1" id="pass1" required/>
+								<span class="error">This is an error</span>
+							</div>
+							<div>
+								<label>Confirm Password:</label>
+								<input type="password" placeholder="********" name="pass2" id="pass2" required/>
+								<span class="error">This is an error</span>
+							</div>
+						</div>
+						<div class="bottom">
+							<div class="remember">
+								<input type="checkbox" />
+								<span>Send me updates</span>
+							</div>
+							<input type="submit" value="Register" id="submit_register"/>
+							<a href="login.html" rel="login" class="linkform">You have an account already? Log in here</a>
+							<div class="clear"></div>
+						</div>
+					</form>
+					<form class="login active" method="POST" action="/pcloud/index.php/login">
+						<h3>Login</h3>
+						<p id="msg_signup">                            
+		                    <span><em> {{ confirmTextLogin}}</em> </span>                           
+		                </p>
+						<div>
+							<label>Username:</label>
+							<input type="text" placeholder="Pseudo" name="pseudo" id="pseudo" required />
+							<span class="error">This is an error</span>
+						</div>
+						<div>
+							<label>Password: <a href="forgot_password.html" rel="forgot_password" class="forgot linkform">Forgot your password?</a></label>
+							<input type="password" placeholder="********" name="pass1" id="pass1" required/>
+							<span class="error">This is an error</span>
+						</div>
+						<div class="bottom">
+							<div class="remember"><input type="checkbox" /><span>Keep me logged in</span></div>
+							<input type="submit" value="Login" id="submit_login"></input>
+							<a href="register.html" rel="register" class="linkform">You don't have an account yet? Register here</a>
+							<div class="clear"></div>
+						</div>
+					</form>
+					<form class="forgot_password" method="POST" action="#">
+						<h3>Forgot Password</h3>
+						<div>
+							<label>Username or Email:</label>
+							<input type="text" required/>
+							<span class="error">This is an error</span>
+						</div>
+						<div class="bottom">
+							<input type="submit" id="submit_forgot_password" value="Send reminder"></input>
+							<a href="login.html" rel="login" class="linkform">Suddenly remebered? Log in here</a>
+							<a href="register.html" rel="register" class="linkform">You don't have an account? Register here</a>
+							<div class="clear"></div>
+						</div>
+					</form>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<a class="back" href="#">Go to ...</a>
+		</div>		
+
+		
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+		<script type="text/javascript" src= "/pcloud/controlers/login.js"> </script>
+    </body>
+</html>

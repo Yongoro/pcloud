@@ -1,0 +1,161 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    /*text-align:center;*/
+    font-weight:bold;
+    font-family:'Architects Daughter', cursive, Arial;
+    background-color: #009999;/*#339999;*/
+    /*padding: 50px;*/
+}
+
+/* bloc page */
+/*================================================================*/
+/*================================================================*/
+#bloc_page{
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    /*position: relative;*/
+    display: block;
+}
+
+/* header */
+/*================================================================*/
+/*================================================================*/
+header#logo{
+    height: 85px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+header#logo p{
+    height: 80px;
+    width: 100%;
+    text-align: center;
+    font-size: 40px;
+    margin-top: 0px;
+    border: 15px solid #006666;
+    border-radius: 15px;
+    color: #ffffff;
+}
+
+header#menu{
+    position: absolute;
+    top:113px;
+    left: 0;
+    height: 70px;
+}
+
+/* navigation menu*/
+/* ============================================================= */
+/* ============================================================= */
+
+nav ul{
+    list-style-type: none;
+
+    /**/
+    /*outline: 1px solid red;*/
+}
+
+nav ul li{
+    /*border: 1px solid red; /*draw lines to divide submenu outline<-> border*/
+    width: 125px;
+    text-align: center;
+    position: relative; /*the most important-- will do the submenu be absolute relative to the menu*/
+    float: left; /*side by side look*/
+    margin-right: 4px;
+}  
+
+/* for the link elements of the menu so that pointing into the rectangle of the menu we will still get the pointer*/
+nav ul a{
+    text-decoration: none; /* remove default underline*/
+    /*here is the rectangle*/
+    display: block;
+    width: 125px;
+    height: 25px;
+    line-height: 25px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/*the links of the class sub1, the first level of menu*/
+nav ul .sub1 a{
+    /*introduces spaces between anchor so that the cursor can switch form one link to another
+    creating a no-man's land*/
+    margin-top: 5px;
+}
+
+nav ul .sub2 a{
+    margin-left: 10px;  /*to make the sub2 menu be shifted to the right */
+}
+
+/**/
+nav ul .sub1 li{
+    /*border: 1px solid green;*/
+    /*margin-top: 5px;*/ /*makes space between items of menu*/
+}
+
+/*effect on anchor of the direct child keeping track of the sequence*/
+nav ul li:hover > a{
+    background-color: #e900e9;
+}
+
+nav ul li:hover a:hover{
+    background-color: yellow;
+}
+
+/*working on the submenu*/
+nav ul .sub1{
+    display: none; /*none-> make it disapear*/
+    position: absolute; /*positionning submenu in relation to the main menu(its parent) which where relative*/
+    top:26px;
+    left:0;
+}
+
+nav ul .sub2{
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 120px;
+}
+
+/*displays the sub1 class on hover*/
+nav ul li:hover .sub1{
+    display: block;
+}
+
+/*displays the sub2 class within the sub1 class*/
+nav ul .sub1 li:hover .sub2{
+    display: block;
+}
+
+/*positions the down side navigation's arrows*/
+.darrow{
+    font-size: 10pt;
+    position: absolute;
+    top: 3px;
+    right: 4px;
+}
+
+/*positions the right side navigation's arrows*/
+.rarrow{
+    font-size: 10pt;
+    position: absolute;
+    top: 7px;
+    right: 4px;
+}
+
+/** Content's page **/
+/*===========================================================================================*/
+/*===========================================================================================*/
+#welcome{
+    position: absolute;
+    top: 270px;
+    left:290px;
+}

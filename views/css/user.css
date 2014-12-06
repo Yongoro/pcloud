@@ -1,0 +1,35 @@
+.user{
+width :50px;
+height: 50px;
+background-image: url("../images/user.png");
+background-size: 80px 80px;
+display: block;
+}
+.actionUser{
+	margin-top: 5px;
+	display:block;
+	width :80px;
+    height: 75px;
+}
+
+#userPart{
+width :670px;
+height: 600px;
+padding: 0px 0px 0px 0px;
+margin: 0px 0px 0px 0px;
+}
+
+#userPart li{
+display: inline-block;
+width: 100px;
+height:100px	;
+}
+.actionUser a{
+	text-decoration: none;
+	margin-right: 3px;
+}
+
+#userPart img{
+width :20px;
+height:20px;
+}

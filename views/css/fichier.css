@@ -1,0 +1,35 @@
+.fichier{
+width :80px;
+height: 80px;
+background-image: url("../images/fichier.jpg");
+background-size: 80px 80px;
+display: block;
+}
+.actionFichier{
+	margin-top: 5px;
+	display:block;
+	width :80px;
+    height: 75px;
+}
+
+#fichierPart{
+width :670px;
+height: 600px;
+padding: 0px 0px 0px 0px;
+margin: 0px 0px 0px 0px;
+}
+
+#fichierPart li{
+display: inline-block;
+width: 100px;
+height:120px	;
+}
+.actionFichier a{
+	text-decoration: none;
+	margin-right: 3px;
+}
+
+#fichierPart img{
+width :20px;
+height:20px;
+}
