@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/themes/base/jquery-ui.css">
+          <link rel="stylesheet" type="text/css" href="/pcloud/views/css/corps.css"/>
+          <link rel="stylesheet" type="text/css" href="/pcloud/views/css/fichier.css"/>
+          <link rel="stylesheet" type="text/css" href="/pcloud/views/css/views.css"/>
+          <link rel="stylesheet" type="text/css" href="/pcloud/views/css/user.css"/>
+          <link rel="stylesheet" type="text/css" href="/pcloud/views/css/groupes.css"/>
+          <link rel="stylesheet" type="text/css" href="jquery-ui.css" />
+          <link rel="stylesheet" type="text/css" href="/pcloud/views/css/popup.css" />
+
+        
+
+
+
+  <title>administration </title>
+    </head>
+    <body>
+    <header>
+      <span id="logo"></span>
+      <span><a id="accueil" href="/pcloud/index.php/admin/accueil">
+        <img src="/pcloud/views/images/accueil.jpeg" alt="gerer les fichiers" /></a></span>
+     <span><a id="file" href="/pcloud/index.php/admin/file">
+        <img src="/pcloud/views/images/fichier.jpg" alt="gerer les fichiers" /></a></span>
+      <span><a id="groupFile" href="/pcloud/index.php/admin/groupFile"><img src="/pcloud/views/images/dossier.png" alt="gérer les vues" /></a></span>
+       <span><a id="user" href="/pcloud/index.php/admin/user"><img src="/pcloud/views/images/user.png" alt="gérer les user" /></a></span>
+      <span><a id = "groupUser" href="/pcloud/index.php/admin/groupUser"><img src="/pcloud/views/images/users.jpg" alt="gerer les utilisateurs"/></a></span>
+      <span><input type="text" name="group_user"/></span>
+      <span><a id="showFile" href="/pcloud/index.php/admin/search"><img src="/pcloud/views/images/recherche.jpg" /></a></span>
+    </header>
+
+
+     <div  class ="content" >
+     <div  class ="partieGauch" >
+      <img src="/pcloud/views/images/en attente.jpg" width="40px" height="30px"/>
+         <section class="partieDemandeEncours">
+              {% for demande  in demandes %}
+              <a href="pop?"  rel="popupShowUser"   class="poplight">
+                {{demande.name_user}}  {{demande.surname_user}} {{demande.date_subscription_user}}</a>
+              {%endfor %}
+        </section >
+
+     <section class="partieFichiersRecents" > <h1> </h1>
+             <table> <th> nom</th> <th> date</th>
+
+              {% for fichier  in files %}
+               <tr> <td>{{fichier.id_file}}</td><td>{{fichier.date_creat_file}}</td></tr>
+               {% endfor%}
+            </table>
+      </section >   
+     </div>
+
+      <div>
+      <div  id ="partieMilieu">
+    
+         <div class=" partieGroupFichier">
+                <div class="addGroupFichier">
+                 <form class="createView"  method="post" action="../index.php/admin/addView">
+                         <fieldset>
+                            <legend>nouveau groupe de fichiers</legend>
+                              <label for="group_fichier">groupe </label>
+                               <input type="text" name ="group_fichier" id="group_fichier" required/><br><br>
+                               <textarea id = "descr_group" name="descr_group" rows=4 cols=40> description</textarea><br><br>
+                               <button id="ajoutGroup"> ajouter</button>
+
+
+                         </fieldset>
+                          <p id="messageAddGF"></p>
+                  </form> 
+                  
+                </div>
+                <div class=" addGroupFichier"> 
+                    <form class="addGroup"  method="post" action="../index.php/admin/addGroup">
+                         <fieldset>
+                            <legend >nouveau group d'utilisateurs</legend>
+                               <label for="group_user">nom </label>
+                                <input type="text" name="group_user"required/><br><br>
+                               <textarea name="description" rows=4 cols=40> description</textarea><br><br>
+                               <button>ajouter</button>
+                         </fieldset>
+                         <p id="messageAddGU"></p>
+                  </form> 
+                </div>
+                <div class=" addGroupFichier"> 
+                  <form class="grantViewToGroup" method="post" action="../index.php/admin/grantViewToGroup">
+                         <fieldset style=" height: 120px;">
+                            <legend>attribuer des droits à un groupe</legend>
+
+                            <label for="group_user">groupe</label> 
+                            <select name="group_user" size="1">
+                            {% for group  in groups %}
+                              <OPTION>{{group.name_user_group}}
+                            {% endfor %} 
+                            </select><br><br>
+
+                            <label for="group_fichier">vue</label> 
+                            <select name="group_file" size="1">
+                            {% for view  in views %}
+                              <OPTION>{{view.name_file_group}}
+                            {% endfor %}
+                               
+                            </select><br><br>
+                           <button>attribuer</button>
+                         </fieldset>
+                  </form> 
+                   <p id="messageGrantViewToGroup"></p> 
+                </div> 
+         </div>
+         <div class=" partieGroupUser"> 
+                <div class=" partie5GroupUser">    
+                  <form class="addUser" method="post" action="../index.php/admin/signup">
+                         <fieldset>
+                            <legend >nouvel utilisateur</legend>
+                               <label for="group_user">nom </label> &nbsp &nbsp&nbsp &nbsp &nbsp <input type="text" name="name" id="name"required/><br><br>
+                               <label for="group_user">prenom </label>&nbsp &nbsp <input type="text" name="surname" id="surname" required/><br><br>
+                               <label for="group_user">pseudo</label> &nbsp &nbsp <input type="text" name="pseudo" id="pseudo" required/><br><br>
+                               <label for="group_user">passe 1</label> &nbsp &nbsp <input type="password" name="pass1" id="pass1"required/> <br><br>
+                               <label for="group_user">passe 2</label> &nbsp &nbsp <input type="password" name="pass2" id="pass2" required/><br><br>
+                               <label for="group_user">email 1</label>  &nbsp &nbsp &nbsp<input type="text" name="mail1"  id="mail1" required/><br><br>
+                               <label for="group_user">email 2</label>  &nbsp &nbsp &nbsp<input type="text" name="mail2"  id="mail2" required/><br><br>
+                               <label for="gender">sexe  &nbsp &nbsp &nbsp &nbsp &nbsp</label> 
+                               <input type="radio" name="gender" id ="gender" value="1">homme
+                               <input type="radio" name="gender" id ="gender" value="0">femme
+                               <br>
+                               <button>ajouter</button>
+                         </fieldset>
+                  </form> 
+
+                </div>
+             
+                <div class="addGroupUser">
+                   <form class="grantViewToUser" method="post" action="../index.php/admin/grantViewToUser">
+                         <fieldset style=" height: 120px;">
+                            <legend>attribuer des droits  à un utilisateur</legend>
+
+                            <label for="group_user">groupe</label> <select name="group_user" size="1">
+                            {% for group  in groups %}
+                              <OPTION>{{group.name_user_group}}
+                            {% endfor %}                               
+                            </select><br><br>
+                            <button>attribuer</button>
+                         </fieldset>
+                          <p id="messageGrantViewToUser"> </p>  
+                  </form> 
+                </div>
+       </div>
+       
+     </div>
+
+
+      <div class ="partieDroit">
+         <section class="partieStat"><h1>résumé statistique</h1> 
+         <ul>
+         <li style="margin-bottom:3px; margin-top:3px;">connexion en cours : {{nombreConnected[0].nbre}}</li>
+         <li style="margin-bottom:3px; margin-top:3px;">utilisateurs: {{nombreUser[0].nbre}}</li>
+         <li style="margin-bottom:3px; margin-top:3px;">fichiers: {{nombreFiles[0].nbre}} </li>
+         <li style="margin-bottom:3px; margin-top:3px; ">groupes d'utilisateurs : {{nombreGroups[0].nbre}} </li>
+         <li style="margin-bottom:3px; margin-top:3px;">groupe de fichiers: {{nombreViews[0].nbre}}</li>
+        </ul>
+ </section > 
+         <section class="partieUtilisateursConnnectes"><h1> utilisateurs connectés </h1>
+        <ul>
+           {% for connecte  in connectes %}
+           <li><a href="">{{connecte.pseudo_user}}</a></li>
+            {% endfor %}
+         </ul>
+         </section >
+         <section class="partieOperationRecentes" ><h1>opérations</h1>
+            <ul>
+               {% for operation  in operations %}
+                 <li><a href="">{{operation.name_operation}}</a></li>
+               {% endfor %}
+            </ul>
+     </section > 
+     </div>
+     </div>
+    <footer>
+      <div id="popup1" class="popup_block">
+  <h2>Developpez.com</h2>
+  <p>Soh Tanaka est traduit sur developpez.com.</p>
+</div>
+
+    </footer>
+
+
+          <script src="/pcloud/views/js/jquery.js"></script>
+          <script src="/pcloud/views/js/script.js"></script>
+          <script src="/pcloud/views/js/file.js"></script>
+          <script src="/pcloud/views/js/file_group.js"></script>
+          <script src="/pcloud/views/js/user_group.js"></script>
+          <script src="/pcloud/views/js/user.js"></script>
+          <script src="/pcloud/views/js/accueil.js"></script>
+          <script src="/pcloud/views/js/stats.js"></script>
+          <script src="/pcloud/views/js/drop_user.js"></script>
+          <script src="/pcloud/views/js/search.js"></script>
+          <script src="/pcloud/views/js/jquery.js"></script>
+          <script src="/pcloud/views/js/jquery-ui.js"></script>
+          <script src="/pcloud/views/js/confirmation.js"></script>
+          <script src="/pcloud/views/js/popup.js"></script>
+          <!--POPUP START-->
+<div id="popupShowUser" class="popup_block">
+  
+
+    <FORM>
+<fieldset>
+  <legend>editer</legend>
+      <label>   pr&eacutenom  </label><BR><input type="text"/><BR>
+      <label>   nom  </label><BR><input type="text"/><BR>
+      <label>   pseudo  </label><BR><input type="text"/><BR>
+      <label>   sexe  </label><BR><input type="text"/><BR>
+      <label>   email  </label><BR><input type="text"/><BR>
+</fieldset>
+ <button>  valider </button>
+</FORM> 
+      
+</div>
+
+<div id="popupEditUser" class="popup_block">
+
+<div class="editUserDiv" >
+<fieldset>
+  <legend>utilisateur</legend>
+      <label>   pr&eacutenom  </label> alassane <BR><BR>
+      <label>   nom  </label> ndiaye <BR><BR>
+      <label>   pseudo  </label> hamman <BR><BR>
+      <label>   sexe  </label> m<BR><BR>
+      <label>   email  </label>alassndiaye1@gmail.com<BR><BR> 
+</fieldset>
+</div>
+<div class="editUserRightDiv">
+<FORM> 
+   <fieldset>
+  <legend>groupes</legend>
+   <label>   groupe 1 </label> alassane <INPUT type="checkbox" name="choix3" value="3"> <BR><BR>
+   <label>   groupe 2 </label> alassane <INPUT type="checkbox" name="choix3" value="3"> <BR><BR>
+     <label>   groupe 2 </label> alassane <INPUT type="checkbox" name="choix3" value="3"> <BR><BR>
+      <label>   groupe 1 </label> alassane <INPUT type="checkbox" name="choix3" value="3"> <BR><BR>
+   <label>   groupe 2 </label> alassane <INPUT type="checkbox" name="choix3" value="3"> <BR><BR>
+     <label>   groupe 2 </label> alassane <INPUT type="checkbox" name="choix3" value="3"> <BR><BR>
+      <label>   groupe 1 </label> alassane <INPUT type="checkbox" name="choix3" value="3"> <BR><BR>
+   <label>   groupe 2 </label> alassane <INPUT type="checkbox" name="choix3" value="3"> <BR><BR>
+     <label>   groupe 2 </label> alassane <INPUT type="checkbox" name="choix3" value="3"> <BR><BR>
+      <label>   groupe 2 </label> alassane <INPUT type="checkbox" name="choix3" value="3"> <BR><BR>
+      <label>   groupe 1 </label> alassane <INPUT type="checkbox" name="choix3" value="3"> <BR><BR>
+   <label>   groupe 2 </label> alassane <INPUT type="checkbox" name="choix3" value="3"> <BR><BR>
+     <label>   groupe 2 </label> alassane <INPUT type="checkbox" name="choix3" value="3"> <BR><BR>
+</fieldset>    
+</FORM>      
+</div>
+
+
+    
+</div>
+    
+    </body>
+
+</html>

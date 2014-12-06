@@ -1,0 +1,20 @@
+<div id="groupFilePart">
+  <h1>gestion des groupes de fichiers</h1>
+<div class="groupFile4">
+   <ul>
+    {%for view in views %}
+      <li>
+      <a class="oneView" href="../index.php/admin/groupFileClicked?id_file_group={{view.id_file_group}}">
+        {{view.name_file_group}}  </a> 
+      </li>
+
+    {%endfor%}
+    
+    </ul>
+
+ </div>
+</div>
+
+<button class="nouveau">
+</button>     
+<script src="../../../pcloud/web/views/js/view.js"></script>

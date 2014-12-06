@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Personalized single mailer</title>
+</head>
+<body>
+	<section>
+		<article>
+			<p><b>{{msg}}</b></p>
+			<form action="/index.php/mail" method="post">
+				  <label for="pseudo"> Name : </label>
+				  <input type="text" name="pseudo" id="pseudo"  value="Pcloud Administrator" readonly="true"><br>
+
+				  <label for="mail">To :</label>
+				  <input type="text" name="mail" id="mail" placeholder="recipient mail" value="{{email}}" required ><br>
+
+				  <label for="message" >Message :</label> <br>
+				  <textarea name="message" cols="60" rows="10" placeholder="write your text here" id="message" required autofocus > 
+				  	
+				  </textarea>  <br>
+
+				  <input type="submit" value="Send">
+			</form>
+		</article>
+	</section>	
+</body>
+</html>

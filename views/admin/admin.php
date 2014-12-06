@@ -1,109 +1,160 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Administration form</title>
-
-        <link rel='stylesheet' href='/web/views/admin/admin.css' type='text/css'/> 
-        <link href='http://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
         <meta charset="utf-8" />
-        <meta name="viewport"  content=" width=320 ,user-scalable=no, minimum-scale=1.0 maximum-scale=1.0"  />
+        <link rel='stylesheet' href='/web/views/admin/admin.css' type='text/css' media='all'/>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />        
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="../../web/controlers/admin/admin.js"></script>        
+        <meta name="viewport"  content=" width=320 ,user-scalable=no, minimum-scale=1.0 maximum-scale=1.0"  />
+        <meta charset="utf-8" />
+        
+        <title>administration </title>
     </head>
-
     <body>
-    	<div id="bloc_page">
-    		<!-- definition header bande superieure au menu navigation -->
-    		<header id="logo">
-    			<p> PCLOUD ADMINISTRATION</p>
-    		</header>
-            <div id="feed"></div>
-            <div id="feed1">
-        	    <form>
-                    <label> nom: <br>
-                        <input type="text" placeholder="nom">
-                    </label> 
-                    <label> description:<br>
-                        <textarea></textarea>   
-                    </label>
-                    <label>
-                        <iframe  frameborder="0px"  src="../../../index.php/admin/file/upload"></iframe>
-                    </label>
-                </form>        	
-            </div>
-    		<!-- definition du header pour menu navigation-->
-    		<header id="menu">
-			    <nav role="navigation">
-			        <ul>
-			            <li><a href="#" title="file management">FILE</a><span class="darrow">&#9660;</span>
-			            	<ul class="sub1">
-			            		<li><a href="/index.php/admin/file/upload" id="add">Add</a></li>
-			            		<li><a href="#">All files</a></li>
-			            		<li><a href="#">other</a></li>
-			            	</ul>
-			            </li>
-			            <li><a href="#" title="user management">USER</a> <span class="darrow">&#9660;</span>
-			            	<ul class="sub1">
-			            		<li><a href="/index.php/admin/file/form">Subscribers</a></li>
-			            		<li><a href="#">Connected</a></li>
-                                <li><a href="#">Denied</a></li>
-			            		<li><a href="#">All Users</a></li>
-			            	</ul>
-			            </li>
-			            <li><a href="#" title="group management">GROUP</a> <span class="darrow">&#9660;</span>
-			            	<ul class="sub1">
-			            		<li><a href="#">FILE</a> <span class="rarrow">&#9654;</span>
-			            			<ul class="sub2">
-					            		<li><a href="#">New File Group</a></li>
-					            		<li><a href="#">All File Groups</a></li>
-					            		<li><a href="#">other</a></li>
-					            	</ul>
-			            		</li>
-			            		<li><a href="#">USER</a> <span class="rarrow">&#9654;</span>
-			            			<ul class="sub2">
-					            		<li><a href="#">New User Group</a></li>
-					            		<li><a href="#">All User Groups</a></li>
-					            		<li><a href="#">other</a></li>
-					            	</ul>
-			            		</li>
-			            		<li><a href="#">other</a></li>
-			            	</ul> 
-			            </li>                      
-			            <li><a href="#" title="contact">Contact</a> <span class="darrow">&#9660;</span>
-			            	<ul class="sub1">
-			            		<li><a href="/index.php/user/sendMail/#">Send User Mail</a></li>
-			            		<li><a href="#">Send Group Mail</a></li>
-			            		<li><a href="#">&copy Copyright</a></li>
-			            	</ul>
-			            </li>
-			        </ul>
-			    </nav>
-			</header>
-			<!-- fin header menu navigation-->
+        
+    <header>
+      <span><a href=""><img src="/web/images/fichier.jpeg" alt="gerer les fichiers" ></img></a></span>
+      <span><a href=""><img src="/web/images/vue.jpg" ></img></a></span>
+      <span><a href=""><img src="/web/images/users.jpg" ></img></a></span>
+      <span><a href=""><img src="/web/images/operation.png" ></img></a></span>
+      <span><a href=""><img src="/web/images/statistique.jpg" ></img></a></span>
+      <span><a href=""><img src="/web/images/annuler.png" ></img></a></span>
+      <span><a href=""><img src="/web/images/recherche.jpg" ></img></a></span>
+      <input type="text" name="group_user" value="recherche">
+    </header>
 
-			
-			<section id="welcome">
-    			<h1> {{nom}} 'S ADMIN PAGE</h1>
-    			<br>
-    			<h3> {{msg}}</h3>    			
-				
-    		</section>
-    		
 
-			<!-- definition du footer -->
+     <div  class ="content" >
+     <div  class ="partieGauch" >
+         <section class="partieDemandeEncours">demande en cours   
+            <ul>
+              {% for demande  in demandes %}
+              <li> <ul> <li> <a href="">{{demande.id_user}}</li><li>{{demande.date_subscription_user}} </a></li></ul></li>
+              {% endfor %}
+           </ul>
+     </section >
 
-			<!--
-    		<footer>
-			    <p>			    	
-			    	<p>Copyright &copy; 2014. -- Ndiaye & Wondeu --</p>
-			    	<a href="#">contacter !</a>
-			    </p> 
-			</footer>
-			-->
-			<!-- fin footer -->
+         <section class="partieFichiersRecents" > fichiers récents
+             <ul>
+              {% for fichier  in files %}
+               <li> <ul> <li>{{fichier.id_file}}</li><li>{{fichier.date_creat_file}}</li></ul></li>
+               {% endfor%}
+            </ul>
 
-    	</div>
+
+
+         </section >   
+     </div>
+
+      <div  class ="partieMilieu">
+    
+         <div class=" partieGroupFichier">
+                <div class="addGroupFichier">
+                 <form method="post" action="addGroup">
+                         <fieldset>
+                            <legend>nouveau groupe de fichiers</legend>
+                              <label for="group_fichier">groupe </label> <input type="text" id="group_fichier"><br><br>
+                               <textarea name="details" rows=4 cols=40> description</textarea><br><br>
+                               <input type="submit" value="ajouter" name="add_user">
+                         </fieldset>
+                  </form> 
+                </div>
+                <div class=" partie5GroupFichier">  <form>
+                         <fieldset>
+                            <legend>nouveau fichier</legend>
+                              <label for="group_fichier">nom</label> <input type="text" id="group_fichier"><br><br>
+                             <label for="group_fichier">type</label> <input type="text" id="group_fichier"><br><br>
+                               <input type="submit" value="ajouter" name="add_user">
+                         </fieldset>
+                  </form> 
+
+                </div>
+         </div>
+         <div class=" partieGroupUser"> 
+                <div class=" partie5GroupUser">    
+                  <form>
+                         <fieldset>
+                            <legend >nouvel utilisateur</legend>
+                               <label for="group_user">nom </label> <input type="text" name="group_user"><br><br>
+                               <label for="group_user">prenom </label> <input type="text" name="group_user"><br><br>
+                               <label for="group_user">pseudo</label> <input type="text" name="group_user"><br><br>
+                               <label for="group_user">passe </label> <input type="text" name="group_user"><br><br>
+                               <label for="group_user">passe</label> <input type="text" name="group_user"><br><br>
+                               <label for="group_user">email </label> <input type="text" name="group_user"><br><br>
+                                 <label for="sexe">sexe </label> 
+                                 <input type="radio" name="sexe" value="1">homme<input type="radio" name="sexe" value="0">femme<br>
+                               <input type="submit" value="ajouter" name="add_user">
+                         </fieldset>
+                  </form> 
+                </div>
+             
+                <div class="addGroupUser">
+                   <form>
+                         <fieldset>
+                            <legend >nouveau group d'utilisateurs</legend>
+                               <label for="group_user">nom </label> <input type="text" name="group_user"><br><br>
+                               <textarea name="details" rows=4 cols=40> description</textarea><br><br>
+                               <input type="submit" value="ajouter" name="add_user">
+                         </fieldset>
+                  </form> 
+                  <form>
+                         <fieldset style=" height: 120px;">
+                            <legend>attribuer des droits</legend>
+                           <label for="group_user">nom </label> <select name="group_user" size="1">
+                               <OPTION>administration
+                               <OPTION>amis
+                               <OPTION>faculte
+                               <OPTION>famille
+                               <OPTION>autres
+                            </select><br><br>
+                           <label for="group_fichier">vue</label> <select name="group_file" size="1">
+                               <OPTION>administration
+                               <OPTION>amis
+                               <OPTION>faculte
+                               <OPTION>famille
+                               <OPTION>autres
+                            </select><br><br>
+                            <input type="submit" value="attribuer" name="add_user">
+                         </fieldset>
+                  </form> 
+                </div>
+       </div>
+       
+     </div>
+
+
+      <div class ="partieDroit">
+         <section class="partieStat"> statistiques 
+         <ul>
+         <li style="margin-bottom:3px; margin-top:3px;">connexion en cours : nombreUser</li>
+         <li style="margin-bottom:3px; margin-top:3px;">utilisateurs: users</li>
+         <li style="margin-bottom:3px; margin-top:3px;">fichiers: files</li>
+         <li style="margin-bottom:3px; margin-top:3px; ">groupe de fichiers : groupsFichiers</li>
+         <li style="margin-bottom:3px; margin-top:3px;">groupe d'utilisateurs: groupsUsers</li>
+        </ul>
+ </section > 
+         <section class="partieUtilisateursConnnectes"> liste des utilisateurs connectés
+        <ul>
+           {% for connecte  in connectes %}
+           <li><a href="">{{connecte.pseudo_user}}</a></li>
+            {% endfor %}
+         </ul>
+         </section >
+         <section class="partieOperationRecentes" > opérations récentes
+            <ul>
+               {% for operation  in operations %}
+                 <li><a href="">{{operation.name_operation}}</a></li>
+               {% endfor %}
+            </ul>
+     </section > 
+     </div>
+     </div>
+    <footer>
+         
+     
+       
+        
+    </footer>
     </body>
 </html>

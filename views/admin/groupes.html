@@ -1,0 +1,19 @@
+<div id="groupUserPart">
+	<h1>gestion des groupes d'utilisateurs</h1>
+<div class="groupUser4">
+   <ul>
+    {%for group in groups %}
+      <li>
+      <a href="{{group.id_user_group}}">
+        {{group.name_user_group}}  </a> 
+      </li>
+
+    {%endfor%}
+    
+    </ul>
+
+ </div>
+</div>
+
+<button class="nouveau">
+</button>     

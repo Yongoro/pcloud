@@ -1,0 +1,64 @@
+<html lang="en" >
+
+    <head>
+        <meta charset="utf-8" />
+        <title>Private Zone | Uploading File on Server </title>
+        <link rel="stylesheet" type="text/css" href="/web/views/files/fileUploadForm.css" />
+        <script src="/web/controlers/files/fileUploadForm.js" type="text/javascript"></script>
+    </head>
+
+    <body>
+        <header>
+            <h2>Private Zone | Uploading File on Server </h2>
+            <a href="/index.php/admin" class="stuts">Back to home on <span>Admin Page</span></a>
+        </header>
+
+        <div class="container">
+            <div class="contr"><h2>You can select a file and click Upload button</h2></div> 
+
+            <div class="upload_form_cont">
+                <form id="upload_form" enctype="multipart/form-data" method="post" action="/index.php/admin/file/upload/test">
+                    <div>
+                        <div><label for="image_file">Please select a file</label></div>
+                        <div><input type="file" name="image_file" id="image_file" onchange="fileSelected();" /></div>
+                    </div>
+
+                    <div>
+                        <input type="button" value="Upload" onclick="startUploading()" />
+                    </div>
+
+                    <div id="fileinfo">
+                        <div id="filename"></div>
+                        <div id="filesize"></div>
+                        <div id="filetype"></div>
+                        <div id="filedim"></div>
+                    </div>
+
+                    <div id="error">You should select valid image files only!</div>
+                    <div id="error2">An error occurred while uploading the file</div>
+                    <div id="abort">The upload has been canceled by the user or the browser dropped the connection</div>
+                    <div id="warnsize">Your file is very big. We can't accept it. Please select more small file</div> 
+
+                    <div id="progress_info">
+                        <div id="progress"></div>
+                        <div id="progress_percent">&nbsp;</div>
+                        <div class="clear_both"></div>
+
+                        <div>
+                            <div id="speed">&nbsp;</div>
+                            <div id="remaining">&nbsp;</div>
+                            <div id="b_transfered">&nbsp;</div>
+                            <div class="clear_both"></div>
+                        </div>
+
+                        <div id="upload_response"></div>
+                    </div>
+                </form> 
+
+                <img id="preview" />  
+
+            </div>
+        </div>
+    </body>
+
+</html>
