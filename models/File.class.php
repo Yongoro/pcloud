@@ -21,59 +21,101 @@
 
 		/* prepared queries declaration*/
 
-		protected $fileCreation; 
-		
-		
+		protected $fileCreate; 
+		protected $fileUpdate;		
+		protected $fileDelete;
+		protected $fileByName;  //get tthe file (ID) given the name
 
-
-		function __construct($nameFile, $sizeFile, $pathFile, $typeFile)
+		function __construct()
 		{
 			global $app;
 			$this->bd = $app['db']; // only for greater visibilty
+			
+			$cpt = func_num_args();
+            $args = func_get_args();
 		
-			$this->setNameFile($nameFile);
+			$this->setNameFile($args[0]);
+			$this->setSizeFile($args[1]);
+			$this->setPathFile($args[2]);
+			$this->setTypeFile($args[3]);
+
+		/*	$this->setNameFile($nameFile);
 			$this->setSizeFile($sizeFile);
 			$this->setPathFile($pathFile);
 			$this->setTypeFile($typeFile);
+		*/
 
 
 			/**************************** queries preparation **************************/
 
-			$this->fileCreation = $this->bd->prepare('CALL procedure_file_add(?,?,NOW(),?,?)');  // add a new file on the server
-
+			$this->fileCreate = $this->bd->prepare('CALL procedure_file_add(?,NOW(),NOW(),?,NOW(),?,?)');  // add a new file on the server
+			$this->fileUpdate = $this->bd->prepare('CALL procedure_file_update(?,?,?,?,?,?)');
+			$this->fileDelete = $this->bd->prepare('CALL procedure_file_delete(?)');
+			$this->fileByName = $this->bd->prepare('SELECT id_file FROM file WHERE name_file = ?');
 			
 		}
 
-		public function createUserSubscription(){
-			
-			try{
-				//peut renvoyer une erreur 23000, quand le login est dejà présent dans la table
-				//quand tout se passe bien $res vaudra 1
-				
-				$result= $this->userSubscription->execute(array($this->getNameUser(),$this->getSurnameUser(),$this->getPseudoUser(),$this->getPasswordUser(),$this->getEmailUser(),$this->getSexUser()));
-			}
-			catch(Doctrine\DBAL\DBALException $e){
-				if($this->userSubscription->errorCode()== 23000){
-					//login dejà utilisé
-					$result = 0; //on va traiter dans la fonction appelante càd index, dans ce cas il va envoyer un message a l'utilisateur									
-				}
-			}
-			return $result;
-		}
+		
 
 		/********************************************************************************/
 		/************      FUNCTIONS/ EXECUTION OF PREPARED QUERIES    ******************/
 		/********************************************************************************/
 
-		//creation a new file
-		public function doFileCreation(){
-			$this->fileCreation->execute(array());
+		//creation of a new file, return the file'id for other needs in the index file
+		/* return -1 (a file with same name already existing), -2 (another pb during creation of file) otherwise returns the file's ID*/
+		public function doFileCreate(){
+			$answer = -2;
+			
+			try{
+				//peut renvoyer une erreur 23000, quand le login est dejà présent dans la table
+				//quand tout se passe bien $res vaudra 1
+				
+				$result= $this->fileCreate->execute(array($this->getPathFile(),$this->getNameFile(),$this->getSizeFile(),$this->getTypeFile() ));
+				
+				//recupérons l'id du fichier ainsi créé
+				if($result){
+					$this->fileByName->execute(array($this->getNameFile()));
+					$res = $this->fileByName->fetch();
+					$this->setIdFile($res['id_file']);
+
+					$answer = $this->getIdFile();
+
+					//alternative utiliser $app['db']->lastInsertId()
+				}
+				else{
+					$answer = -2; // "get some problem when creating the file";
+				}
+				
+			}
+			catch(Doctrine\DBAL\DBALException $e){
+				if($this->fileCreate->errorCode()== 23000){
+					//login dejà utilisé
+					$answer = -1; //on va traiter dans la fonction appelante càd index, dans ce cas il va envoyer un message a l'utilisateur									
+				}
+			}
+			return $answer;
 		}
+
+		//update a file
+		//TODO
+		public function doFileUpdate(){
+
+			$res = $this->fileUpdate->execute(array($this->getIdFile(), $this->getPathFile(), $this->getNameFile(),$this->getSizeFile(),$this->getTypeFile()));
+			return $res;
+		}
+
+		//delete a file
+		public function doFileDelete(){
+			$res = $this->fileDelete->execute(array($this->getIdFile()));
+			return $res;
+		}
+
 
 
 		/********************************************************************************/
 		/*********************  getters and setters *************************************/
 		/********************************************************************************/
+
 		public function getIdFile(){ return $this->idFile; }
 		public function getNameFile(){ return $this->nameFile; }
 		public function getTypeFile(){ return $this->typeFile; }
