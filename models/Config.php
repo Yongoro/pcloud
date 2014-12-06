@@ -1,9 +1,16 @@
 <?php
 
     // On charge le framework Silex
-    require_once '/vendor/autoload.php';
+    //occhio il cammino è indicato relativamente all'indice
+    require_once '../../vendor/autoload.php';   
 
-    require_once '/web/models/User.class.php';
+    require_once '/models/User.class.php';
+    require_once '/models/File.class.php';
+    require_once '/models/FileGroup.class.php';
+    require_once '/models/UserGroup.class.php';
+    require_once '/models/Keyword.class.php';
+    require_once __DIR__.'/UserGroupFileGroup.class.php';
+    //require_once '/web/models/TimeManagement.class.php';
 
     /********************************************************************************************
       INITIALISATION ET CONFIGURATIONS
@@ -64,7 +71,7 @@
     $app->register(new Silex\Provider\FormServiceProvider());
     $app->register(new Silex\Provider\TranslationServiceProvider());
 
-  $app['translator'] = $app->share($app->extend('translator', function($translator, $app) {
+    $app['translator'] = $app->share($app->extend('translator', function($translator, $app) {
         $translator->addLoader('yaml', new Symfony\Component\Translation\Loader\YamlFileLoader());
 
         $translator->addResource('yaml', 'locales/en.yml', 'en');
@@ -73,6 +80,11 @@
 
         return $translator;
     }));
+
+    ///------------------------- Monolog --------------------------------------------------
+    $app->register(new Silex\Provider\MonologServiceProvider(), array(
+        'monolog.logfile' => 'logs/development.log',
+    ));
 
     
 ?>
