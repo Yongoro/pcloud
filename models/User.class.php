@@ -13,6 +13,7 @@
 		private $idUser;
 		private $dateRegistration;
 		private $dateSubscription;
+		private $stateRegistration;
 		private $nameUser;
 		private $surnameUser;
 		private $pseudoUser;
@@ -28,12 +29,10 @@
 		
 		protected $userLogin;		 // to login the user
 		protected $userLogout;		 // to logout
+		protected $userExist;		 // to check wether the user exist in the DB	
 		
 		protected $userUpdate;		 // to modify some data of the user
-		protected $insertLog;		 // pour mettre à jour la table Log de celui qui se connecte
-		protected $setConnected;	 // pour modifier le champs CONNECTED de la table USER	
-		protected $unsetConnected;	 // pour mettre CONNECTED = 0
-
+		
 		protected $deniedRequest1;	// sets state to REFUSE and call the trigger to insert into user_denied
 		protected $deniedRequest2;	// delete from user
 
@@ -41,19 +40,32 @@
 		protected $acceptRequest2;	// create system user
 		protected $acceptRequest3;	// give him default rights
 
+		protected $grant_rights; 	//give him right on a given view
 
-		function __construct($nameUser,$surnameUser,$pseudoUser,$passwordUser,$emailUser,$sexUser)
+
+		function __construct()
 		{
 			global $app;
 			$this->bd = $app['db']; // only for greater visibilty
-		
-			$this->setNameUser($nameUser);
-			$this->setSurnameUser($surnameUser);
-			$this->setPseudoUser($pseudoUser);
-			$this->setPasswordUser($passwordUser);
-			$this->setEmailUser($emailUser);
-			$this->setSexUser($sexUser);
+			
+			$cpt = func_num_args();
+            $args = func_get_args();
 
+            switch ($cpt) {
+				case '1':	
+				$this->setPseudoUser($args["0"]);
+				break;
+
+				default:
+		        $this->setNameUser($args["0"]);
+				$this->setSurnameUser($args["1"]);
+				$this->setPseudoUser($args["2"]);
+				$this->setPasswordUser($args["3"]);
+				$this->setEmailUser($args["4"]);
+				$this->setSexUser($args["5"]);
+				break;
+			}
+			
 
 			/**************************** queries preparation definition  **************************/
 
@@ -67,13 +79,16 @@
 			$this->deniedRequest1 = $this->bd->prepare('CALL procedure_user_denied(?)'); //denied the user's request
 			$this->deniedRequest2 = $this->bd->prepare('CALL procedure_user_denied_delete()');    //to delete the user from the table USER and from the system table
 
+			$this->grant_rights = $this->bd->prepare('CALL procedure_user_grant_rights(?,?)');
+
 			//$this->userLogin = $this->bd->prepare('CALL procedure_user_login');
 
 			/************* //ToDo  **************/
-			$this->userLogin = $this->bd->prepare('SELECT id_user, password_user FROM user WHERE pseudo_user = ? ');     // recuperer l'ID de celui qui se connecte			
-			$this->setConnected = $this->bd->prepare('UPDATE user SET CONNECTED = 1 WHERE pseudo_user = ?');			 // met le gars connecté
-			$this->unsetConnected = $this->bd->prepare('UPDATE user SET CONNECTED = 0 WHERE pseudo_user = ?');			 // met le gars deconnecté
-			$this->insertLog = $this->bd->prepare('INSERT INTO log (id_user,date_log) VALUES (?, NOW())');				 //met a jour le log
+			$this->userExist = $this->bd->prepare('SELECT id_user, password_user, state_registration_user FROM user WHERE pseudo_user = ? ');     // recuperer l'ID de celui qui se connecte			
+			
+			$this->userLogin = $this->bd->prepare('CALL procedure_user_login(?)');			 // met le gars connecté et écrit dans table log
+			$this->userLogout = $this->bd->prepare('CALL procedure_user_logout(?)');			 // met le gars deconnecté
+			
 		}
 
 		public function createUserSubscription(){
@@ -96,21 +111,18 @@
 		public function doUserLogin($pass){
 
 			$ok = 1; //1-> existe bien et bons inputs, 2-> mot de passe erroné, 3-> inexistant ce gars
-			$this->userLogin->execute(array($this->getPseudoUser()));
-			$res = $this->userLogin->fetch();			
+			$this->userExist->execute(array($this->getPseudoUser()));
+			$res = $this->userExist->fetch();			
 			
 			//si $res a une valeur du login existe bien en base
 			if($res['id_user']){
 				$this->setIdUser($res['id_user']);
-				//$this->setPasswordUser($res['password_user']);
-				//controllons les mots de pass
+				$this->setStateRegistration($res['state_registration_user']);
+				//controllons les mots de pass et si l'utilisateur a été accepté ie inscrit à l'état actuel
 				//print_r($pass."--".$res['password_user']);
-				if(strcmp($pass, $res['password_user'])==0){
+				if( strcmp($pass, $res['password_user'])==0 && strcasecmp($this->getStateRegistration(), "accepté")==0){
 					//ce gars existe
-
-					$this->setConnected->execute(array($this->getPseudoUser()));
-					// mettre à jour la table Log
-					$this->insertLog->execute(array($this->getIdUser()));
+					$this->userLogin->execute(array($this->getPseudoUser()));					
 				}
 				else{
 					//mot de passe different, mais  login existant
@@ -175,18 +187,33 @@
 		}
 
 		public function doUserLogout(){
-			$this->userLogout->execute(array($this->getPseudoUser(),$this->getPasswordUser()));
-			$res = $this->userLogout->fetch();
-			$this->idUser = $this->setIdUser($res['id_user']);
+			//$this->userLogout->execute(array($this->getPseudoUser(),$this->getPasswordUser()));
+			//$res = $this->userLogout->fetch();
+			//$this->idUser = $this->setIdUser($res['id_user']);
 
-			$res1 = $this->unsetConnected->execute(array($this->getPseudoUser()));
-			return $res; //si tout se passe bien on renvoit 1 			
+			$res1 = $this->userLogout->execute(array($this->getPseudoUser()));
+			return $res1; //si tout se passe bien on renvoit 1 			
+		}
+
+		public function doGrandRightToUser($view){
+
+			try{				
+
+				$result= $this->grant_rights->execute(array($this->pseudoUser,$view));
+			}
+			catch(Doctrine\DBAL\DBALException $e){		
+					
+				return 0; //on va traiter dans la fonction appelante càd index, dans ce cas il va envoyer un message a l'utilisateur	
+			}
+			return $result;
 		}
 
 		/********************************************************************************/
 		/*********************  getters and setters *************************************/
 		/********************************************************************************/
 		public function getIdUser(){ return $this->idUser; }
+
+		public function getStateRegistration(){ return $this->stateRegistration; }
 
 		public function getConnectedUser(){ return $this->connected; }
 
@@ -204,9 +231,15 @@
 
 		public function getSurnameUser(){ return $this->surnameUser; }
 
+		public function getView(){ return $this->view; }
+
+
+
 		public function setIdUser($idUser) {$this->idUser=$idUser;}
 
 		public function setPseudoUser($pseudoUser) {$this->pseudoUser=$pseudoUser;}
+
+		public function setStateRegistration($stateRegistration) {$this->stateRegistration=$stateRegistration;}
 
 		public function setPasswordUser($passwordUser) {$this->passwordUser=$passwordUser;}
 
@@ -221,6 +254,8 @@
 		public function setSurnameUser($surnameUser) {$this->surnameUser=$surnameUser;}
 
 		public function setConnectedUser($connected) {$this->connected=$connected;}
+
+		public function setView($view) {$this->view=$view;}
 
 	}
 
