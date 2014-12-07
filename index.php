@@ -431,7 +431,7 @@ $app->match('/logout',function(Application $app, Request $req){
         //quelquechose s'est mal passé lors de la deconnexion ou le user est un MALFRAT/ILLEGAL
       }
   */
-      return $app->redirect('/');
+      return $app->redirect('/pcloud/');
 });
 
 //*****************************************************************************************************//
@@ -635,7 +635,7 @@ $app->match('/admin',function(Application $app){
 
     return  $app['twig']->render("views/admin/admin.html",array('demandes' => $demandes,'files'=> $files,'connectes'=>$connectes,
      'operations'=>$operations,'views'=>$views,'groups'=>$groups,'nombreUser'=>$nombreUser,'nombreConnected'=>$nombreConnected,
-     'nombreFiles'=>$nombreFiles,'nombreGroups'=>$nombreGroups,'nombreViews'=>$nombreViews));
+     'nombreFiles'=>$nombreFiles,'nombreGroups'=>$nombreGroups,'nombreViews'=>$nombreViews,'msg'=>''));
 });
 
 //*******************************************************************************************//
