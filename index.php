@@ -67,7 +67,15 @@
         //on teste si les données sont cohérentes
         if(strcmp($pass1, $pass2)==0  && strcmp($email1, $email2)==0){ 
           
-            $user = new User($name,$surname,$pseudo,$pass1,$email1,$gender);  
+            $user = new User($name,$surname,$pseudo,$pass1,$email1,$gender);
+          /*  $user = new User();
+            $user->setNameUser($name);
+            $user->setSurnameUser($surname);
+            $user->setPseudoUser($pseudo);
+            $user->setPasswordUser($pass1);
+            $user->setEmailUser($email1);
+            $user->setSexUser($gender);
+          */
           
             $res= $user->createUserSubscription(); 
             
@@ -566,14 +574,64 @@ $app->match('/admin',function(Application $app){
      'nombreFiles'=>$nombreFiles,'nombreGroups'=>$nombreGroups,'nombreViews'=>$nombreViews));
 });
 
-//*****************************************************************************************************/
-//*************** MAIL TO RESET PASSWORD O TO REMIND HIM HIS PASSWORD     *****************************/
-//*****************************************************************************************************/
-$app->match('/user/remindPassword/{$mail}',function(Application $app, $mail){
+//***************************************************************************************************************************************************/
+//*************** MAIL TO RESET PASSWORD O TO REMIND HIM HIS PASSWORD  // version 2 impossible puisque c'est hashé ->   *****************************/
+//***************************************************************************************************************************************************/
+$app->match('/user/remindPassword',function(Application $app, Request $req){
 
-    $user= new User();
-    $user->setEmailUser($mail);
+    $mail=$req->request->get('mail');
+    if(!isset($mail)){
+            $msg=" something got wrong, controls email!";
+            return $app['twig']->render('views/admin/admin.php', array('nom' => "ADMIN",'msg'=>$msg));
+    }
+    else{
 
+            $user= new User();
+            $user->setEmailUser($mail);
+
+            // version 1: recupérons son pseudo et pour lui communiquer de rechoisir un autre
+            $sql = $app['db']->prepare('SELECT pseudo_user  FROM user WHERE email_user = ?');
+            $sql->execute(array($mail));
+            $result = $sql->fetch();
+
+            if($result['pseudo_user']){
+                  $subject = "Resetting PCloud's Password!";
+                  try{ 
+
+                    $text = '<html>' .
+                            ' <head> <title>Y. Cloud </title></head>' .
+                            ' <body>' .
+                            ' <h2> Pcloud | Y. Cloud</h2>'.
+                            ' <p> Dear  ' .$result['pseudo_user'].'<br> You have forgotten your password and have asked to get a new one!.<br>'. 
+                            '     You will be redirected on the website to create a new one!</p>'.
+                            ' <p> Click <a href="http://localhost/pcloud"> here </a> to reset your password </p>'.
+                            ' </body>' .
+                            '</html>' ;        
+                    $text1 = '';                   
+                            
+                    $numSent = $app['mailer']->send(\Swift_Message::newInstance()
+                                    ->setSubject($subject)
+                                    ->setFrom(array('yongoro.pcloud@gmail.com' => 'Y. PCloud'))
+                                    ->setTo(array($mail =>'A '.$result['pseudo_user']))
+                                    ->setBody($text,'text/html')
+                                    ->addPart($text1,'text/plain')
+                                    ->setReadReceiptTo('yongoro.pcloud@gmail.com'));        
+                    $msg=" A Message has been sent to ".$mail." !";
+                    //return $msg;
+                    return $app['twig']->render('views/login/login.html', array('confirmText'=>'', 'confirmTextLogin'=>$msg));               
+                    }
+                    catch(\Swift_TransportException $e){
+                        $msg=" connection to the remote failed due to transport look at settings"; 
+                        //return $app['twig']->render('views/admin/admin.html', array(msg'=>$msg)); 
+                        return $msg;     
+                    }   
+            }
+            else{
+              //something gets wrong when retrieving the pseudo on DB
+            }               
+              
+    }
+    
 });
 
 //*****************************************************************************************************/
