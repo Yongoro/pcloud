@@ -15,7 +15,7 @@
 					<form class="register" method="POST" action="/pcloud/index.php/signup">
 						<h3>Register</h3>
 						<p id="msg_signup">                            
-		                    <span><em> {{ confirmText}}</em> </span>                           
+		                    <span class="bleutext"><em> {{ confirmText}}</em> </span>                           
 		                </p>
 						<div class="column">
 							<div>
@@ -35,12 +35,12 @@
 							</div>
 							<div>
 								<label>Sex:</label>
-								<div><input type="radio"  name="gender"  value="male"/> Male</div>
-								<div><input type="radio"  name="gender"  value="female"/>Female</div>
+								<div><input type="radio"  name="gender"  value="1"/> Male</div>
+								<div><input type="radio"  name="gender"  value="0"/>Female</div>
 								<span class="error">This is an error</span>
 							</div>
-
 						</div>
+
 						<div class="column">
 							<div>
 								<label>Email:</label>
@@ -63,6 +63,7 @@
 								<span class="error">This is an error</span>
 							</div>
 						</div>
+
 						<div class="bottom">
 							<div class="remember">
 								<input type="checkbox" />
@@ -72,11 +73,13 @@
 							<a href="login.html" rel="login" class="linkform">You have an account already? Log in here</a>
 							<div class="clear"></div>
 						</div>
+
 					</form>
+
 					<form class="login active" method="POST" action="/pcloud/index.php/login">
 						<h3>Login</h3>
-						<p id="msg_signup">                            
-		                    <span><em> {{ confirmTextLogin}}</em> </span>                           
+						<p id="msg_login">                            
+		                    <span class="bleutext"><em> {{ confirmTextLogin}}</em> </span>                           
 		                </p>
 						<div>
 							<label>Username:</label>
@@ -95,11 +98,12 @@
 							<div class="clear"></div>
 						</div>
 					</form>
-					<form class="forgot_password" method="POST" action="#">
+
+					<form class="forgot_password" method="POST" action="/pcloud/index.php/user/remindPassword">
 						<h3>Forgot Password</h3>
 						<div>
 							<label>Username or Email:</label>
-							<input type="text" required/>
+							<input type="text" name="mail" required/>
 							<span class="error">This is an error</span>
 						</div>
 						<div class="bottom">
@@ -109,12 +113,13 @@
 							<div class="clear"></div>
 						</div>
 					</form>
+
 				</div>
+
 				<div class="clear"></div>
 			</div>
-			<a class="back" href="#">Go to ...</a>
-		</div>		
-
+			<a class="back" href="/pcloud/">Go to Homepage!</a>
+		</div>	
 		
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 		<script type="text/javascript" src= "/pcloud/controlers/login.js"> </script>
