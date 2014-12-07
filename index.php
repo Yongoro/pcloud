@@ -52,14 +52,14 @@
     
     // recuperation données du formulaire
     
-    $pseudo=$req->request->get('pseudo');
-    $name=$req->request->get('name'); 
-    $surname=$req->request->get('surname');     
-    $pass1= sha1($req->request->get('pass1'));
-    $pass2= sha1($req->request->get('pass2'));
-    $email1=$req->request->get('mail1');
-    $email2=$req->request->get('mail2'); 
-    $gender=$req->request->get('gender');  
+    $pseudo=  $app->escape($req->request->get('pseudo'));
+    $name=    $app->escape($req->request->get('name')); 
+    $surname= $app->escape($req->request->get('surname'));     
+    $pass1=   sha1($app->escape($req->request->get('pass1')));
+    $pass2=   sha1($app->escape($req->request->get('pass2')));
+    $email1=  $app->escape($req->request->get('mail1'));
+    $email2=  $app->escape($req->request->get('mail2')); 
+    $gender=  $app->escape($req->request->get('gender'));  
 
 
     if( isset($pseudo) && isset($name) && isset($surname) && isset($pass1) && isset($email1) && isset($gender)){
@@ -361,32 +361,37 @@ $app->match('/admin/denied/{pseudo}',function(Application $app, $pseudo){
 $app->match('/login', function(Application $app, Request $req){
 
   $msg = "";
-  $pseudo=$req->request->get('pseudo');
-  $pass1= sha1($req->request->get('pass1'));
+  $pseudo=$app->escape($req->request->get('pseudo'));
+  $pass1= sha1($app->escape($req->request->get('pass1')));
 
   if(isset($pseudo) && isset($pass1)){
 
-      $user = new User($name='',$surname='',$pseudo,$pass1,$email1='',$gender);
+      $user = new User($name='',$surname='',$pseudo,$pass1,$email1='',$gender='');
       $res = $user->doUserLogin($pass1);
 
       //$res ici est boolean si c'est true, tout s'est bien passé
       if($res==1){
-        //utilisateur existant dans la base, mettre a jour la session
-        $app['session']->set('pseudo',$pseudo);
-        $app['session']->set('pass',$pass1);
+          //utilisateur existant dans la base, mettre a jour la session
+          $app['session']->set('pseudo',$pseudo);
+          $app['session']->set('pass',$pass1);
 
-        //echo $app['session']->get('pseudo');
+          //echo $app['session']->get('pseudo');
 
-        $msg = "Hope you will be satisfied!";
+          $msg = "Hope you will be satisfied!";
 
-        $app['monolog']->addInfo(sprintf("User '%s' logged in.", $pseudo));
+          $app['monolog']->addInfo(sprintf("User '%s' logged in.", $pseudo));
 
-        return $app['twig']->render('/views/user/user.twig', array('welcome' => $msg,'nom'=>$pseudo));
+          return $app['twig']->render('/views/user/user.twig', array('welcome' => $msg,'nom'=>$pseudo));
       }
-      else if($res==2){
-        //mot de passe erroné
-        $msg=" ". $pseudo.': wrong password, try again or reset it! ';
-        return $app['twig']->render('/views/login/login.html', array('confirmText' => "", 'confirmTextLogin'=>$msg));
+      else if ($res==2){
+          //user pas encore accepté
+          $msg=" ". $pseudo.':subscription not yet accepted! you will receive a mail soon... ';
+          return $app['twig']->render('/views/login/login.html', array('confirmText' => "", 'confirmTextLogin'=>$msg));
+      }
+      else if($res==3){
+          //mot de passe erroné
+          $msg=" ". $pseudo.': wrong password, try again or reset it! ';
+          return $app['twig']->render('/views/login/login.html', array('confirmText' => "", 'confirmTextLogin'=>$msg));
       }
       else{
         //inexistant dsna la base
@@ -429,7 +434,66 @@ $app->match('/logout',function(Application $app, Request $req){
       return $app->redirect('/');
 });
 
+//*****************************************************************************************************//
+//************************  ROUTE TO CALL FORM IN ORDER TO RESET PASSWORD *****************************//
+//*****************************************************************************************************//
+$app->match('/user/resetPassword/{pseudo}',function(Application $app, $pseudo){
+       if(isset($pseudo)){
 
+            return $app['twig']->render('views/login/reset_password.html', array('pseudo'=>$pseudo,'confirmReset'=>''));
+       }
+       else{
+            return $app->redirect('/');
+       }
+      
+});
+
+//*****************************************************************************************************//
+//************************  ROUTE TO IMPLEMENT THE PASSWORD'S RESET AND REDIRECT USER TO HOMEPAGE******//
+//*****************************************************************************************************//
+$app->match('/user/resetPassword', function(Application $app, Request $req){
+    $pseudo= $app->escape($req->request->get('pseudo'));
+    $pass1= sha1($app->escape($req->request->get('pass1')));
+    $pass2= sha1($app->escape($req->request->get('pass2')));
+    $msg='';
+
+    if(!isset($pseudo) || !isset($pass1) || !isset($pass2)){
+        $msg="You have to set all the fields!";
+        return $app['twig']->render('views/login/reset_password.html', array('pseudo'=>$pseudo,'confirmReset'=>$msg));
+    }
+    else{
+        //tutti i campi sono stati inseriti, controliamo se le password coincidono
+         if(strcmp($pass1, $pass2)==0){
+              $user = new User();
+              $user->setPasswordUser($pass1);
+              $user->setPseudoUser($pseudo);
+
+              $sql = $app['db']->prepare('UPDATE user SET password_user=? WHERE pseudo_user = ?');
+              $result = $sql->execute(array($pass1,$pseudo));              
+              if($result){
+                //tutto ok
+                $msg="your password has been reset correctly";
+                //choisir que faire, ici on le redirige juste vers la page d'acceuil
+                return $app->redirect('/pcloud/');
+              }
+              else{
+                //something got wrong
+                $msg="Something got wrong, please try later!";
+                return $app['twig']->render('views/login/reset_password.html', array('pseudo'=>$pseudo,'confirmReset'=>$msg));
+              }
+              
+         }
+         else{
+              //password diversi
+              $msg="password are differents, please control and try again!";
+              return $app['twig']->render('views/login/reset_password.html', array('pseudo'=>$pseudo,'confirmReset'=>$msg));
+         }
+    }
+});
+
+//*****************************************************************************************************//
+//************************  ROUTE TO UPLOAD FILE ON WEBSITE BY ADMIN      *****************************//
+//*****************************************************************************************************//
 $app->match('/admin/file/upload',function(Application $app, Request $req){      
 
       function bytesToSize1024($bytes, $precision = 2) {
@@ -574,9 +638,9 @@ $app->match('/admin',function(Application $app){
      'nombreFiles'=>$nombreFiles,'nombreGroups'=>$nombreGroups,'nombreViews'=>$nombreViews));
 });
 
-//***************************************************************************************************************************************************/
-//*************** MAIL TO RESET PASSWORD O TO REMIND HIM HIS PASSWORD  // version 2 impossible puisque c'est hashé ->   *****************************/
-//***************************************************************************************************************************************************/
+//*******************************************************************************************//
+//*************** ROUTE TO SEND AN EMAIL TO RESET PASSWORD     ******************************//
+//*******************************************************************************************//
 $app->match('/user/remindPassword',function(Application $app, Request $req){
 
     $mail=$req->request->get('mail');
@@ -595,6 +659,7 @@ $app->match('/user/remindPassword',function(Application $app, Request $req){
             $result = $sql->fetch();
 
             if($result['pseudo_user']){
+                  $pseudo = $result['pseudo_user'];
                   $subject = "Resetting PCloud's Password!";
                   try{ 
 
@@ -602,9 +667,9 @@ $app->match('/user/remindPassword',function(Application $app, Request $req){
                             ' <head> <title>Y. Cloud </title></head>' .
                             ' <body>' .
                             ' <h2> Pcloud | Y. Cloud</h2>'.
-                            ' <p> Dear  ' .$result['pseudo_user'].'<br> You have forgotten your password and have asked to get a new one!.<br>'. 
+                            ' <p> Dear  ' .$pseudo.'<br> You have forgotten your password and have asked to get a new one!.<br>'. 
                             '     You will be redirected on the website to create a new one!</p>'.
-                            ' <p> Click <a href="http://localhost/pcloud"> here </a> to reset your password </p>'.
+                            ' <p> Click <a href="http://localhost/pcloud/index.php/user/resetPassword/'.$pseudo.'".> here </a> to reset your password </p>'.
                             ' </body>' .
                             '</html>' ;        
                     $text1 = '';                   
@@ -612,7 +677,7 @@ $app->match('/user/remindPassword',function(Application $app, Request $req){
                     $numSent = $app['mailer']->send(\Swift_Message::newInstance()
                                     ->setSubject($subject)
                                     ->setFrom(array('yongoro.pcloud@gmail.com' => 'Y. PCloud'))
-                                    ->setTo(array($mail =>'A '.$result['pseudo_user']))
+                                    ->setTo(array($mail =>'A '.$pseudo))
                                     ->setBody($text,'text/html')
                                     ->addPart($text1,'text/plain')
                                     ->setReadReceiptTo('yongoro.pcloud@gmail.com'));        
