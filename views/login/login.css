@@ -111,6 +111,11 @@ form.forgot_password{
 	text-align: right;
 }
 
+
+.bleutext{
+ 	color: #336699;
+}
+
 .form_wrapper input[type="text"],
 .form_wrapper input[type="password"],
 .form_wrapper input[type="radio"]{
@@ -218,10 +223,7 @@ form.forgot_password{
 	color: #222;
 }
 
-em{
-	color: red;
-}
-
 form.active p{
 	text-align: center;
+	font-size: 12px;
 }
