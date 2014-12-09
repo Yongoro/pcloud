@@ -1,42 +1,46 @@
 <!DOCTYPE html>
 <html>
     <head>
-          <meta charset="utf-8" />
-          <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/themes/base/jquery-ui.css">
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/themes/base/jquery-ui.css">
           <link rel="stylesheet" type="text/css" href="/pcloud/views/css/corps.css"/>
           <link rel="stylesheet" type="text/css" href="/pcloud/views/css/fichier.css"/>
           <link rel="stylesheet" type="text/css" href="/pcloud/views/css/views.css"/>
           <link rel="stylesheet" type="text/css" href="/pcloud/views/css/user.css"/>
           <link rel="stylesheet" type="text/css" href="/pcloud/views/css/groupes.css"/>
           <link rel="stylesheet" type="text/css" href="jquery-ui.css" />
-          <link rel="stylesheet" type="text/css" href="/pcloud/views/css/popup.css" />  
-
-          <title>administration </title>
+          <link rel="stylesheet" type="text/css" href="/pcloud/views/css/popup.css" />
+  <title>administration </title>
     </head>
+    <body> <p> {{msg}}<p/>
+    <header>
+        <div id="logo">daniel && assane
+        </div>
+        <div id="menu">
+      <span><a id="accueil" href="/pcloud/index.php/admin/accueil">
+        <img src="/pcloud/views/images/accueil.jpeg" alt="gerer les fichiers" /></a></span>
+     <span><a class="file" href="/pcloud/index.php/admin/file">
+        <img src="/pcloud/views/images/fichier.jpg" alt="gerer les fichiers" /></a></span>
+      <span><a id="groupFile" href="/pcloud/index.php/admin/groupFile"><img src="/pcloud/views/images/dossier.png" alt="gérer les vues" /></a></span>
+       <span><a id="user" href="/pcloud/index.php/admin/user"><img src="/pcloud/views/images/user.png" alt="gérer les user" /></a></span>
+      <span><a id = "groupUser" href="/pcloud/index.php/admin/groupUser"><img src="/pcloud/views/images/users.jpg" alt="gerer les utilisateurs"/></a></span>
+      <span><a href="">deconnexion</a></span>
+       </div>
 
-    <body>
+      <span id="search"><input type="text" name="recherche" value="recherche" />
+        <a id="searchFiles" href="/pcloud/index.php/admin/search?file=garcon"><img style = "width:20px;height:20px;box-shadow:0px 0px 0px 0px" src="/pcloud/views/images/afficher.png" alt="gerer les utilisateurs"/>
+        </a></span>
+   
     
-      <p>{{msg}}</p>
 
-        <header>
-          <span id="logo"></span>
-          <span><a id="accueil" href="/pcloud/index.php/admin/accueil">
-            <img src="/pcloud/views/images/accueil.jpeg" alt="gerer les fichiers" /></a></span>
-          <span><a id="file" href="/pcloud/index.php/admin/file">
-            <img src="/pcloud/views/images/fichier.jpg" alt="gerer les fichiers" /></a></span>
-          <span><a id="groupFile" href="/pcloud/index.php/admin/groupFile"><img src="/pcloud/views/images/dossier.png" alt="gérer les vues" /></a></span>
-           <span><a id="user" href="/pcloud/index.php/admin/user"><img src="/pcloud/views/images/user.png" alt="gérer les user" /></a></span>
-          <span><a id = "groupUser" href="/pcloud/index.php/admin/groupUser"><img src="/pcloud/views/images/users.jpg" alt="gerer les utilisateurs"/></a></span>
-          <span><input type="text" name="group_user"/></span>
-          <span><a id="showFile" href="/pcloud/index.php/admin/search"><img src="/pcloud/views/images/recherche.jpg" /></a></span>
-        </header>
+    </header>
+
 
      <div  class ="content" >
      <div  class ="partieGauch" >
-      <img src="/pcloud/views/images/en attente.jpg" width="40px" height="30px"/>
-         <section class="partieDemandeEncours">
+         <section class="partieDemandeEncours"> 
               {% for demande  in demandes %}
-              <a href="pop?"  rel="popupShowUser"   class="poplight">
+              <a href="/pcloud/index.php/admin/readSubscription?id_user={{demande.id_user}}"  rel="popupShowSubscription"   class="poplight">
                 {{demande.name_user}}  {{demande.surname_user}} {{demande.date_subscription_user}}</a>
               {%endfor %}
         </section >
@@ -63,6 +67,8 @@
                                <input type="text" name ="group_fichier" id="group_fichier" required/><br><br>
                                <textarea id = "descr_group" name="descr_group" rows=4 cols=40> description</textarea><br><br>
                                <button id="ajoutGroup"> ajouter</button>
+
+
                          </fieldset>
                           <p id="messageAddGF"></p>
                   </form> 
@@ -71,7 +77,7 @@
                 <div class=" addGroupFichier"> 
                     <form class="addGroup"  method="post" action="../index.php/admin/addGroup">
                          <fieldset>
-                            <legend >nouveau groupe d'utilisateurs</legend>
+                            <legend >nouveau group d'utilisateurs</legend>
                                <label for="group_user">nom </label>
                                 <input type="text" name="group_user"required/><br><br>
                                <textarea name="description" rows=4 cols=40> description</textarea><br><br>
@@ -149,13 +155,13 @@
 
       <div class ="partieDroit">
          <section class="partieStat"><h1>résumé statistique</h1> 
-         <ul>
-         <li style="margin-bottom:3px; margin-top:3px;">connexion en cours : {{nombreConnected[0].nbre}}</li>
-         <li style="margin-bottom:3px; margin-top:3px;">utilisateurs: {{nombreUser[0].nbre}}</li>
-         <li style="margin-bottom:3px; margin-top:3px;">fichiers: {{nombreFiles[0].nbre}} </li>
-         <li style="margin-bottom:3px; margin-top:3px; ">groupes d'utilisateurs : {{nombreGroups[0].nbre}} </li>
-         <li style="margin-bottom:3px; margin-top:3px;">groupe de fichiers: {{nombreViews[0].nbre}}</li>
-        </ul>
+         <table>
+         <tr style="margin-bottom:3px; margin-top:3px;"><td>connexion en cours <td><td style="text-align:right">{{nombreConnected[0].nbre}}</td></tr>
+         <tr style="margin-bottom:3px; margin-top:3px;"><td>utilisateurs</td><td style="text-align:right">{{nombreUser[0].nbre}}</td></tr>
+         <tr style="margin-bottom:3px; margin-top:3px;"><td>fichiers</td><td style="text-align:right"> {{nombreFiles[0].nbre}} </td></tr>
+         <tr style="margin-bottom:3px; margin-top:3px; "><td>groupes d'utilisateurs</td><td><td style="text-align:right">{{nombreGroups[0].nbre}}</td></tr>
+         <tr style="margin-bottom:3px; margin-top:3px;"><td>groupe de fichiers</td><td style="text-align:right">{{nombreViews[0].nbre}}</td></tr>
+        </table>
  </section > 
          <section class="partieUtilisateursConnnectes"><h1> utilisateurs connectés </h1>
         <ul>
@@ -196,60 +202,27 @@
           <script src="/pcloud/views/js/jquery-ui.js"></script>
           <script src="/pcloud/views/js/confirmation.js"></script>
           <script src="/pcloud/views/js/popup.js"></script>
-          <!--POPUP START-->
-<div id="popupShowUser" class="popup_block">
-  
 
-    <FORM>
+
+          <!--POPUP START-->
+<div id="popupShowSubscription" class="popup_block">
+    
 <fieldset>
-  <legend>editer</legend>
-      <label>   pr&eacutenom  </label><BR><input type="text"/><BR>
-      <label>   nom  </label><BR><input type="text"/><BR>
-      <label>   pseudo  </label><BR><input type="text"/><BR>
-      <label>   sexe  </label><BR><input type="text"/><BR>
-      <label>   email  </label><BR><input type="text"/><BR>
+  <legend>nouvelle demande</legend>
+      <label id="dateDemande"></label><BR> <BR>
+      <label id="nomDemandeur"></label><BR> <BR>
+      <label id="prenomDemandeur"></label><BR><BR>
+      <label id="pseudoDemandeur"></label><BR><BR>
+      <label id="emailDemandeur"></label><BR><BR>
+      <label id="sexDemandeur"></label><BR><BR>
+
 </fieldset>
- <button>  valider </button>
-</FORM> 
+ <a href="/pcloud/index.php/admin/accept/{{demandes[0].id_user}}">accepter</a> <a href="/pcloud/index.php/admin/denied/{{demandes[0].id_user}}">refuser</a>
+
       
 </div>
 
-<div id="popupEditUser" class="popup_block">
 
-<div class="editUserDiv" >
-<fieldset>
-  <legend>utilisateur</legend>
-      <label>   pr&eacutenom  </label> alassane <BR><BR>
-      <label>   nom  </label> ndiaye <BR><BR>
-      <label>   pseudo  </label> hamman <BR><BR>
-      <label>   sexe  </label> m<BR><BR>
-      <label>   email  </label>alassndiaye1@gmail.com<BR><BR> 
-</fieldset>
-</div>
-<div class="editUserRightDiv">
-<FORM> 
-   <fieldset>
-  <legend>groupes</legend>
-   <label>   groupe 1 </label> alassane <INPUT type="checkbox" name="choix3" value="3"> <BR><BR>
-   <label>   groupe 2 </label> alassane <INPUT type="checkbox" name="choix3" value="3"> <BR><BR>
-     <label>   groupe 2 </label> alassane <INPUT type="checkbox" name="choix3" value="3"> <BR><BR>
-      <label>   groupe 1 </label> alassane <INPUT type="checkbox" name="choix3" value="3"> <BR><BR>
-   <label>   groupe 2 </label> alassane <INPUT type="checkbox" name="choix3" value="3"> <BR><BR>
-     <label>   groupe 2 </label> alassane <INPUT type="checkbox" name="choix3" value="3"> <BR><BR>
-      <label>   groupe 1 </label> alassane <INPUT type="checkbox" name="choix3" value="3"> <BR><BR>
-   <label>   groupe 2 </label> alassane <INPUT type="checkbox" name="choix3" value="3"> <BR><BR>
-     <label>   groupe 2 </label> alassane <INPUT type="checkbox" name="choix3" value="3"> <BR><BR>
-      <label>   groupe 2 </label> alassane <INPUT type="checkbox" name="choix3" value="3"> <BR><BR>
-      <label>   groupe 1 </label> alassane <INPUT type="checkbox" name="choix3" value="3"> <BR><BR>
-   <label>   groupe 2 </label> alassane <INPUT type="checkbox" name="choix3" value="3"> <BR><BR>
-     <label>   groupe 2 </label> alassane <INPUT type="checkbox" name="choix3" value="3"> <BR><BR>
-</fieldset>    
-</FORM>      
-</div>
-
-
-    
-</div>
     
     </body>
 

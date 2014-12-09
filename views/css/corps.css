@@ -1,14 +1,24 @@
 body{
-	margin-left: 25px;
-	margin-right: 20px;
-    background:#f4f4f4 url(../images/bg.gif)  top left;
+	margin-left: 40px;
+    background:#f4f4f4 url("../images/bg.gif")  top left;
+}
+
+#menu{
+	margin-left: 50px;
+
 }
 
 #logo{
-	height:50px;
-	width:100px;
+	height:40px;
+	width:200px;
 	background-image: url("../images/cloud.png");
 	background-size: 100px 50px;
+	margin-left: 50px;
+	padding-bottom: 10px;
+}
+#search{
+	margin-left: 140px;
+
 }
 legend{
 	font-weight: bold;
@@ -23,26 +33,21 @@ label{
 }
 
 button, input, select, textarea {
-  border-radius: 5px;
+  background-color: white;
 }
 
 div{
-    background-color: white;
 	float:left;
 	text-align: center;
 	font-size: 12px;
-	border-radius: 5px;
 }
 header{
 	height: 50px;
 	position: relative;
-	left: 250px;
-	width: 1045px;
-	border-radius: 5px;
+	width: 1295px;
 	font-size: 14px;
 	padding-top: 15px;
-	border-bottom: 2px black solid;
-	background-color: white;
+	background:#f4f4f4 url(../images/bg.gif)  top left;
 }
 }
 
@@ -84,6 +89,7 @@ ul{
 	margin-bottom: 10px;
 	margin-top:  10px;
 	padding: 5px 5px 5px 5px ;
+	 background:#f4f4f4 url(../images/bg.gif)  top left;
 	
 	}
 .partieGauch a{
@@ -98,6 +104,8 @@ text-decoration: none;
 	margin-bottom: 10px;
 	margin-top:  10px;
 	padding: 5px 5px 5px 5px ; 
+ background:#f4f4f4 url(../images/bg.gif)  top left;
+
 
 }
 
@@ -169,30 +177,26 @@ text-decoration: none;
 
 
 .partieDemandeEncours{
-	width: 240px;
+	width: 250px;
 	height:390px;
 	border: 2px ;
-    margin-bottom: 10px;
     overflow:scroll;
     margin-right: 5px;
-    padding-right: 10px;
-    margin-top: 10px;
     
 }
 
 .partieDemandeEncours a{
-	background-color:#01B0F0;
-	opacity: 0.5;
+
 	list-style:none;
 	text-align: left;
-	font-weight: bold;
 	display: block;
     padding-left:5px;
     margin-bottom: 1px;
     border-bottom: solid gray ;
     border-width: 1px;
-    color:white;
+    color:black;
     height: 30px;
+    background-color: white;
 }
 
 
@@ -209,10 +213,10 @@ h1{
 
 .partieFichiersRecents{
 	border: 2px ;
-    border-radius: 25px;
 	width: 250px;
 	height:270px;
 	overflow:scroll;
+	background-color: white;
 }
 
 .partieFichiersRecents li ul li{
@@ -226,12 +230,12 @@ h1{
 
 
 .partieUtilisateursConnnectes{
-	border: 2px ;
-    border-radius: 25px;
 	width: 250px;
 	height:300px;
 	padding: 5px 5px 5px 5px ;
 	overflow:scroll;
+	background-color: white;
+	margin-top: 5px;
 }
 .partieUtilisateursConnnectes li { 
    display : list-item; 
@@ -240,21 +244,21 @@ h1{
 
 
 .partieStat{
-	border: 2px ;
-    border-radius: 25px;
+	overflow: scroll;
 	width: 250px;
 	height:150px;
 	padding: 5px 5px 5px 5px ;
+	text-align: left;
+	background-color: white;
 }
 
 
 .partieOperationRecentes{
-	border: 2px ;
-    border-radius: 25px;
 	width: 250px;
 	height:150px;
 	padding: 5px 5px 5px 5px ;
 	overflow:scroll;
+	background-color: white;
 }
 
 .nouvelDemand{
@@ -271,5 +275,5 @@ background-color: blue;
 .nouveau{
 	width:15px;
 	height:15px;
-	background-image: url("../images/ajouter.png");
+	background-image: url("../views/images/ajouter.png");
 }

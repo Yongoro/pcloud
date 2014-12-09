@@ -4,8 +4,12 @@
    <ul>
     {%for group in groups %}
       <li>
-      <a href="{{group.id_user_group}}">
-        {{group.name_user_group}}  </a> 
+      <a class="OneGroup" title="{{group.description_user_group}}"  href="/pcloud/index.php/admin/oneGroupUser?id_user_group={{group.id_user_group}}">
+        {{group.name_user_group}}  </a> <BR>
+      <a style="background-image:url(re);width:20px;height:20px;margin-right:10px;" href="">  
+        <img style="width:20px;height:20px;"src="/pcloud/views/images/supprimer.jpg" alt="gerer les fichiers" /></a> 
+      <a style="background-image:url(re);width:20px;height:20px;margin-right:10px;" href="">  
+        <img style="width:20px;height:20px;"src="/pcloud/views/images/modifier.png" alt="gerer les fichiers" /></a> 
       </li>
 
     {%endfor%}
@@ -17,3 +21,4 @@
 
 <button class="nouveau">
 </button>     
+ <script src="/pcloud/views/js/user_group.js"></script>

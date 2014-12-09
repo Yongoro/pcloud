@@ -2,7 +2,7 @@ $(document).ready(OnViewSelected);
 
    function OnViewSelected(){
 
-  $(".oneView").click(viewSelected); 
+  $(".view").click(viewSelected); 
  
   }
 

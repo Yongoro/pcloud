@@ -1,42 +1,43 @@
 <script src="/pcloud/views/js/view.js"></script>
 <script src="/pcloud/views/js/file.js"></script>
-<div id="fichierPart">
-   <h1> groupe de fichier {{files[0].name_group}}</h1>
- <a class="lettre" href="../index.php/admin/fileToSearch?lettre=a">A</a> <a class="lettre" href="../index.php/admin/fileToSearch?lettre=b">B</a>
-  <a class="lettre" href="../index.php/admin/fileToSearch?lettre=c">C</a> <a class="lettre" href="../index.php/admin/fileToSearch?lettre=d">D</a>  
-   <a class="lettre" href="../index.php//admin/fileToSearch?lettre=e">E</a> <a class="lettre" href="../index.php/admin/fileToSearch?lettre=f">F</a>
-   <a class="lettre" href="../index.php/admin/fileToSearch?lettre=g">G</a> <a class="lettre" href="../index.php/admin/fileToSearch?lettre=h">H</a>
-   <a class="lettre" href="../index.php/admin/fileToSearch?lettre=i">I</a> <a class="lettre" href="../index.php/admin/fileToSearch?lettre=j">J</a>
-   <a class="lettre" href="../index.php/admin/fileToSearch?lettre=k">K</a> <a class="lettre" href="../index.php/admin/fileToSearch?lettre=l">L</a>
-   <a class="lettre" href="../index.php/admin/fileToSearch?lettre=m">M</a> <a class="lettre" href="../index.php/admin/fileToSearch?lettre=n">N</a>
-   <a class="lettre" href="../index.php/admin/fileToSearch?lettre=o">O</a> <a class="lettre"href="../index.php/admin/fileToSearch?lettre=p">P</a> 
-   <a class="lettre" href="../index.php/admin/fileToSearch?lettre=q">Q</a> <a class="lettre" href="../index.php/admin/fileToSearch?lettre=r">R</a> 
-   <a class="lettre" href="../index.php/admin/fileToSearch?lettre=s">S</a> <a class="lettre" href="../index.php/admin/fileToSearch?lettre=t">T</a> 
-   <a class="lettre" href="../index.php/admin/fileToSearch?lettre=u">U</a> <a class="lettre" href="../index.php/admin/fileToSearch?lettre=v">V</a> 
-   <a class="lettre" href="../index.php/admin/fileToSearch?lettre=w">W</a> <a class="lettre" href="../index.php/admin/fileToSearch?lettre=x">X</a>
-   <a class="lettre" href="../index.php/admin/fileToSearch?lettre=y">Y</a> <a class="lettre" href="../index.php/admin/fileToSearch?lettre=z">Z</a>
+<div class="fichierPart">
+   <h1> groupe de fichiers </h1>
+   <a class="lettre" href="/pcloud/index.php/admin/fileToSearch?lettre=a">A</a> <a class="lettre" href="/pcloud/index.php/admin/fileToSearch?lettre=b">B</a>
+   <a class="lettre" href="/pcloud/index.php/admin/fileToSearch?lettre=c">C</a> <a class="lettre" href="/pcloud/index.php/admin/fileToSearch?lettre=d">D</a> 
+   <a class="lettre" href="/pcloud/index.php//admin/fileToSearch?lettre=e">E</a> <a class="lettre" href="/plcoud/index.php/admin/fileToSearch?lettre=f">F</a>
+   <a class="lettre" href="/pcloud/index.php/admin/fileToSearch?lettre=g">G</a> <a class="lettre" href="/pcloud/index.php/admin/fileToSearch?lettre=h">H</a>
+   <a class="lettre" href="/pcloud/index.php/admin/fileToSearch?lettre=i">I</a> <a class="lettre" href="/pcloud/index.php/admin/fileToSearch?lettre=j">J</a>
+   <a class="lettre" href="/pcloud/index.php/admin/fileToSearch?lettre=k">K</a> <a class="lettre" href="/pcloud/index.php/admin/fileToSearch?lettre=l">L</a>
+   <a class="lettre" href="/plcoud/index.php/admin/fileToSearch?lettre=m">M</a> <a class="lettre" href="/pcloud/index.php/admin/fileToSearch?lettre=n">N</a>
+   <a class="lettre" href="/pcloud/index.php/admin/fileToSearch?lettre=o">O</a> <a class="lettre"href="/pcloud/index.php/admin/fileToSearch?lettre=p">P</a> 
+   <a class="lettre" href="/plcoud/index.php/admin/fileToSearch?lettre=q">Q</a> <a class="lettre" href="/pcloud/index.php/admin/fileToSearch?lettre=r">R</a> 
+   <a class="lettre" href="/pcloud/index.php/admin/fileToSearch?lettre=s">S</a> <a class="lettre" href="/pcloud/index.php/admin/fileToSearch?lettre=t">T</a> 
+   <a class="lettre" href="/pcloud/index.php/admin/fileToSearch?lettre=u">U</a> <a class="lettre" href="/pcloud/index.php/admin/fileToSearch?lettre=v">V</a> 
+   <a class="lettre" href="/plcoud/index.php/admin/fileToSearch?lettre=w">W</a> <a class="lettre" href="/pcloud/index.php/admin/fileToSearch?lettre=x">X</a>
+   <a class="lettre" href="/pcloud/index.php/admin/fileToSearch?lettre=y">Y</a> <a class="lettre" href="/pcloud/index.php/admin/fileToSearch?lettre=z">Z</a>
      <ul>
               {% for file  in files %}
               
+
               <li>   
                 <div class="fichier">{{file.name_file}}</div>  
                   <div class="actionFichier">
-                    <a id="showFile" href="../index.php/admin/fileShow">
+                    <a class="showFile" href="/pcloud/index.php/admin/fileShow">
                       <img src="/pcloud/views/images/afficher.png"/>
                     </a>
                     <a  class = "modifier" href="">
                       <img src="/pcloud/views/images/modifier.png"/>
                     </a>
-                    <a id="deleteFile" class ="supprimer" href="../index.php/admin/fileDelete?id_file={{file.id_file}}"> <img src="/pcloud/views/images/supprimer.jpg"/></a>
+                    <a class="deleteFile" title="supprimer" href="/pcloud/index.php/admin/fileDeleteGroup?id_file={{file.id_file}}"> <img src="/pcloud/views/images/supprimer.jpg"/></a>
                   </div>
                     
               </li>
               {% endfor %}
       </ul>
 </div>
-<button>
-  ajouter un fichier
-</button> 
+
+
+
 
   
 

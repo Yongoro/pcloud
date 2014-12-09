@@ -4,17 +4,17 @@ function OnReady(){
     $(".addGroup").submit(OnAddGroup); // Abonne un callback à l'évènement "submit" du formulaire
     $(".grantViewToGroup").submit(OnGrantViewToGroup); // Abonne un callback à l'évènement "submit" du formulaire
     $(".grantViewToUser").submit(OnGrantViewToUser); // Abonne un callback à l'évènement "submit" du formulaire
+    $(".file").click(OnFile); // Abonne un callback à l'évènement "submit" du formulaire
     $("#user").click(OnUser); 
-    $("#file").click(OnFile); // Abonne un callback à l'évènement "submit" du formulaire
     $("#groupFile").click(OnFileGroup); // Abonne un callback à l'évènement "submit" du formulaire
     $("#groupUser").click(OnUserGroup); // Abonne un callback à l'évènement "submit" du formulaire
     $("#accueil").click(OnAccueil); // Abonne un callback à l'évènement "submit" du formulaire
     $("#stat").click(OnStat); // Abonne un callback à l'évènement "submit" du formulaire
     $("#dropUser").click(OnDropUser); // Abonne un callback à l'évènement "submit" du formulaire
-    $("#search").click(OnSearch); // Abonne un callback à l'évènement "submit" du formulaire
+    $("#searchFiles").click(OnSearchFiles); // Abonne un callback à l'évènement "submit" du formulaire
     $("#accueil").click(Onaccueil); // Abonne un callback à l'évènement "submit" du formulair
-}
 
+}
 function OncreateView(event){
     event.preventDefault();
     $.ajax({
@@ -68,7 +68,7 @@ function OnSuccess3(result){
 }
 
 
-function OnGrantViewToUser(){
+function OnGrantViewToUser(event){
     event.preventDefault();
     $.ajax({
         type: $(this).attr("method"), // Récupère la méthode d'envoi du formulaire, ici "POST"
@@ -87,4 +87,22 @@ function OnSuccess4(result){
 
 
  
+function OnSearchFiles(event){
 
+      event.preventDefault();
+    $.ajax({
+
+
+        type: $(this).attr("method"), // Récupère la méthode d'envoi du formulaire, ici "POST"
+        url: $(this).attr("href"), // Récupère l'url du script qui reçoit la requête, ici "add.php"
+        datatype: 'json', 
+        data: $(this).serialize(),// Fa
+        success: OnSearchFileSuccess // Callback qui récupère la réponse du serveur
+    });
+    return false; // Annule l'envoi classique du formulaire
+    
+}
+
+function OnSearchFileSuccess(result){
+ $("#partieMilieu").html(result);
+}

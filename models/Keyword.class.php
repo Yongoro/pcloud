@@ -41,13 +41,13 @@
 		/********************************************************************************/
 		/************      FUNCTIONS/ EXECUTION OF PREPARED QUERIES    ******************/
 		/********************************************************************************/
-		
+
 		public function doKeywordCreate(){
 			
 			try{
 				//peut renvoyer une erreur 23000, quand le login est dejà présent dans la table
 				//quand tout se passe bien $res vaudra 1
-				//sinon ça vaut -1 car le mot clé existe deja dans la table
+				
 				$result= $this->keywordCreate->execute(array($this->getIdKeyword(),$this->getDescriptionKeyword()));				
 			}
 			catch(Doctrine\DBAL\DBALException $e){
