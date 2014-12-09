@@ -130,7 +130,7 @@ function startUploading() {
         oXHR.addEventListener('error', uploadError, false);
         oXHR.addEventListener('abort', uploadAbort, false);
 
-        oXHR.open('POST', 'pcloud/index.php/admin/file/upload/test');
+        oXHR.open('POST', 'pcloud/index.php/admin/file/upload');
         oXHR.send(vFD); 
 
     // set inner timer

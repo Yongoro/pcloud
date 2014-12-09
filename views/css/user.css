@@ -33,38 +33,3 @@ height:100px	;
 width :20px;
 height:20px;
 }
-
-#popupEditUser{
-width:500px;
-height: 300px;
-float: left;
-text-align: left;
-}
-
-#userInfo{
-	width:60%;
-	height: 80%;
-}
-#userAddRight{
-margin-top: 20px;
-}
-
-#userEditRight{
-	width:30%;
-	height: 80%;
-	margin-left: 20px;
-
-}
-
-#userEditRight fieldset{
-	width: 160px;
-	height: 250px;
-	overflow: scroll;
-	margin-bottom: 20px;
-}
-
-#popupEditUser  label{
-	overflow : hidden;
-}
-
-

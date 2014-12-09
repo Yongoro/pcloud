@@ -1,28 +1,20 @@
-<div class="groupFilePart">
+<div id="groupFilePart">
   <h1>gestion des groupes de fichiers</h1>
-
+<div class="groupFile4">
    <ul>
     {%for view in views %}
       <li>
-      <a class="view"  title="{{view.description_file_group}}" href="/pcloud/index.php/admin/groupFileClicked?id_file_group={{view.id_file_group}}">
-        {{view.name_file_group}}  
-      </a> <BR>
-      <a style="background-image:url(re);width:20px;height:20px;margin-right:10px;" href="">  
-        <img style="width:20px;height:20px;"src="/pcloud/views/images/supprimer.jpg" alt="gerer les fichiers" /></a> 
-      <a style="background-image:url(re);width:20px;height:20px;margin-right:10px;" href="">  
-        <img style="width:20px;height:20px;"src="/pcloud/views/images/modifier.png" alt="gerer les fichiers" /></a> 
-
-       </li>
+      <a class="oneView" href="../index.php/admin/groupFileClicked?id_file_group={{view.id_file_group}}">
+        {{view.name_file_group}}  </a> 
+      </li>
 
     {%endfor%}
     
     </ul>
 
+ </div>
 </div>
 
-<a class="nouveau" href="">
-</a> 
- 
-<script src="/pcloud/views/js/file_group.js"></script>
-<script src="/pcloud/views/js/view.js"></script>
-
+<button class="nouveau">
+</button>     
+<script src="../../../pcloud/web/views/js/view.js"></script>

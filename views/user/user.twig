@@ -5,19 +5,27 @@
         <link href='http://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
         <meta charset="utf-8" />
         <meta name="viewport"  content=" width=320 ,user-scalable=no, minimum-scale=1.0 maximum-scale=1.0"  />
-            <link rel="stylesheet" type="text/css" href="/pcloud/views/css/corps.css"/>
+        <link rel="stylesheet" href="../login.css" type="text/css"/>
     </head>
     
     <body>
-    
-      
+        <div id="bloc_page" >
+            <header>
+               <nav role="navigation">
+                    <ul>
+                        <li><a href="#" title="" target="_blank">non</a></li>                        
+                        <li><a href="#">oui</a></li>
+                    </ul>
+                </nav>
+            </header>
 
               <h1>{{welcome}} </h1>
-              <p> <strong>{{msg}}</strong></p>
-              <p> on this day, {{ "now"|date("d/m/Y") }} ,{{word}}</p>
+              <p> <strong>Welcome,  <strong>{{nom}}</strong></strong></p>
+              <p> on this day, {{ "now"|date("d/m/Y") }} , enjoy :))</p>
             <footer>
                 <p></p>
             </footer>
+        </div>
     </body>
     
 </html>

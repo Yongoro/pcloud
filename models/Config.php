@@ -4,13 +4,14 @@
     //occhio il cammino è indicato relativamente all'indice
     require_once '../../vendor/autoload.php';   
 
-    require_once 'User.class.php';
-    require_once 'File.class.php';
-    require_once 'FileGroup.class.php';
-    require_once 'UserGroup.class.php';
-    require_once 'Keyword.class.php';
-    require_once 'FileGroupFile.class.php';
-    require_once 'UserGroupFileGroup.class.php';
+    require_once '/models/User.class.php';
+    require_once '/models/File.class.php';
+    require_once '/models/FileGroup.class.php';
+    require_once '/models/FileGroupFile.class.php';
+    require_once '/models/UserGroup.class.php';
+    require_once '/models/Keyword.class.php';
+    require_once '/models/KeywordFile.class.php';    
+    require_once __DIR__.'/UserGroupFileGroup.class.php';
     //require_once '/web/models/TimeManagement.class.php';
 
     /********************************************************************************************
@@ -22,19 +23,19 @@
     $app = new Silex\Application();
     $app['debug'] = true;
 
-    ////--------------------- doctrine --------------------------------------------
+    ////--------------------- doctrine -----------------------------------------------------------
     $app->register(new Silex\Provider\DoctrineServiceProvider(),
             array('db.options' => array(
                                     'driver'   => 'pdo_mysql',
                                     'host'     => 'localhost',          // pas touche à ça : spécifique pour C9 !
                                     'user'     => 'root',               // vous pouvez mettre votre login à la place
-                                    'password' => 'madrid',
+                                    'password' => '',
                                     'charset'  => 'utf8',
                                     'dbname' => 'pcloud'                // mettez ici le nom de la base de données
     ))); //
 
 
-    ////------------------------Swift Mail Sender -------------------------------------
+    ////----------------------   Swift Mail Sender -------------------------------------------------
     $app->register(new Silex\Provider\SwiftmailerServiceProvider());
 
     $app['swiftmailer.options'] = array(
@@ -61,7 +62,7 @@
 
     ////---------------------twig------------------------------------------------------
     $app->register(new Silex\Provider\TwigServiceProvider(), 
-               array('twig.path' => '.',));
+    	       array('twig.path' => '.',));
 
     ////-------------------translation--------------------------------------------------
     $app->register(new Silex\Provider\TranslationServiceProvider(), array(
@@ -82,7 +83,10 @@
         return $translator;
     }));
 
- 
+    ///------------------------- Monolog --------------------------------------------------
+    $app->register(new Silex\Provider\MonologServiceProvider(), array(
+        'monolog.logfile' => 'logs/development.log',
+    ));
 
     
 ?>

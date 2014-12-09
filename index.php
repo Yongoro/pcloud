@@ -83,25 +83,21 @@
 
             if($res == 1){
               //inscription faite 
-              $welcome = "Welcome";
-              $msg = $name." : your subscription request has been received, you will be contacted later";   
-              $word = "enjoy our cloud:))";
+              $msg= $name." : your subscription request has been received, you will be contacted later";        
             }
             else {
-              $welcome = "Error";
-              $msg = $name." : this pseudo is already used...";
-              $word = "try again by using another pseudo" ;
+              //erreur survenue
+              $msg= $name." : this pseudo is already used...";
             }                      
         }
         else{
 
-          $welcome="Error";          
+          //donnees incoherentes          
           $msg="passwords or emails do not match :(( ";
-          $word = "try again by caring about the symmetry between yours mails";
         }       
     }
 
-    return $app['twig']->render('views/user/user.twig', array('msg' =>$msg,'welcome'=>$welcome,'word'=>$word));
+    return $app['twig']->render('views/accueil.twig', array('confirmText' => $msg, 'confirmTextLogin'=>""));
 });
 
 /************************************************************************************************************/
@@ -138,8 +134,7 @@
             if($res == 1){
               //inscription faite 
               $msg= $name." : your subscription request has been received, you will be contacted later";     
-              $user->doAcceptRequest();
-              
+              $user->doAcceptRequest();              
 
               $app['session']->set('user_created_and_granted',$pseudo); 
             }
@@ -196,41 +191,6 @@ $app->post('admin/grantViewToGroup', function(Application $app,Request $req) {
       
 });
 
-//octroyer un droit de lecture sur une vue à un utilisateur
-
-$app->post('admin/grantViewToUser', function(Application $app,Request $req) {
-
-    $sqlViews = "SELECT name_file_group from user_group_file_group gugf,user_group gu,file_group gf
-           where gugf.id_user_group = gu.id_user_group AND gugf.id_file_group = gf.id_file_group
-            AND gu.name_user_group ='".$req->request->get('group_user')."'"; 
-
-      
-    $views =  $app['db']->fetchAll($sqlViews);
-
-
-  
-      $userRight = new User();
-      $userRight->setPseudoUser( $app['session']->get('user_created_and_granted',$pseudo));  
-
-      //tant qu'il y a une vue dans le tableau, accorder un droit dessus à l'utilisateur.
-    
-
-      foreach ($views as $view) {
-                     $result = $userRight->doGrandRightToUser($view["name_file_group"]);
-
-      }
-
-     
-     if($result)
-       return "octroi effectué";
-     return "echec de l'octroi: tentative de duplication de droits";
-
-      
-    });
-
-
-
-
 /* route vers l'onglet gestion de fichiers*/
 $app->get('admin/file', function(Application $app) {
    
@@ -279,7 +239,7 @@ $app->get('admin/fileShow', function(Application $app,Request $req) {
 /* route vers l'ongle gestion groupe de fichiers*/
 $app->get('admin/groupFile', function(Application $app,Request $req) {
 
-    $sqlIdFileGroup = "SELECT id_file_group,name_file_group,description_file_group from file_group";
+    $sqlIdFileGroup = "SELECT id_file_group,name_file_group from file_group";
     $views =  $app['db']->fetchAll($sqlIdFileGroup); 
     
     echo $app['twig']->render('views/admin/views.html',array( 'views'=>$views));  
@@ -298,29 +258,12 @@ $app->get('admin/groupFileClicked', function(Application $app,Request $req) {
 /* route vers la partie gestion des groupes d'utilisateurs*/
 $app->get('admin/groupUser', function(Application $app,Request $req) {
 
-      $sqlIdUserGroup = "SELECT * from user_group";
+      $sqlIdUserGroup = "SELECT id_user_group,name_user_group from user_group";
       $groups =  $app['db']->fetchAll($sqlIdUserGroup); 
     
       echo $app['twig']->render('views/admin/groupes.html',array( 'groups'=>$groups)); 
       return "";      
 });
-
-/* route vers la partie  gestion des utilisateurs d'un groupe*/
-$app->get('admin/oneGroupUser', function(Application $app,Request $req) {
-
-      $sqlIdUserGroup = "SELECT u.name_user,u.pseudo_user,ug.name_user_group from user_group ug,user_group_user ugu, user u where 
-      ugu.id_user_group = ug.id_user_group AND ugu.id_user = u.id_user AND ug.id_user_group = 
-      ".$req->query->get("id_user_group");
-      $users =  $app['db']->fetchAll($sqlIdUserGroup); 
-    
-      echo $app['twig']->render('views/admin/user.html',array( 'users'=>$users)); 
-      return "";      
-});
-
-
-
-
-
 
 /* route vers la partie gestion d'utilisateurs*/
 $app->get('admin/user', function(Application $app,Request $req) {
@@ -333,21 +276,6 @@ $app->get('admin/user', function(Application $app,Request $req) {
       echo $app['twig']->render('views/admin/user.html',array("users"=>$users)); 
       return "";      
 });
-
-
-/* route vers la partie gestion d'utilisateurs*/
-$app->get('admin/userToSearch', function(Application $app,Request $req) {
-
-      $sqlUser = "SELECT id_user,pseudo_user,name_user,surname_user from user where pseudo_user LIKE '".$req->query->get('lettre')."%'
-      OR surname_user LIKE '".$req->query->get('lettre')."%'  OR name_user LIKE '".$req->query->get('lettre')."%'";
-      $users =  $app['db']->fetchAll($sqlUser); 
-
-      echo $app['twig']->render('views/admin/user.html',array("users"=>$users)); 
-      return "";      
-});
-
-
-
 
 /* route vers la partie gestion de fichiers*/
 
@@ -381,12 +309,8 @@ $app->get('admin/stats', function(Application $app,Request $req) {
 $app->match('/admin/accept/{pseudo}',function(Application $app, $pseudo){
     $msg="";
     $state="ok";
-
-    $sqlAccepted = "SELECT * FROM user WHERE id_user = ".$pseudo;
-    $accepted = $app['db']->fetchAssoc($sqlAccepted);
     // PREVOIR CONTROLE D'UNE CERTAINE MANIERE POUR VOIR SI C'EST BIEN APPELE PAR L'ADMIN
-    $user = new User($accepted[0]['name_user'],$accepted[0].['surname_user'],$accepted[0].['pseudo_user'],
-    $accepted[0].['password_user'],$accepted[0].['email_user'],$accepted[0].['sex_user']); //nous avons seulement le pseudo
+    $user = new User($name='',$surname='',$pseudo, $pass='',$email1='',$gender=''); //nous avons seulement le pseudo
     $mail = $user->doAcceptRequest();
 
     if($mail){
@@ -578,7 +502,7 @@ $app->match('/admin/file/upload',function(Application $app, Request $req){
       } 
 
       /* Make sure that Upload Directory is properly configured and writable */
-      $path = 'upload/';
+      $path = 'upload/files';
       
       /***   version pure PHP ***/
 
@@ -596,15 +520,14 @@ $app->match('/admin/file/upload',function(Application $app, Request $req){
 
             $sFileDescription = $req->request->get('file_description');
             $sFileTokens = $req->request->get('file_tokens');
-            $sFileGroups = $req->request->get('file_groups');
+            $sFileGroups = $req->request->get('file_groups');//attention c'est un array
 
             echo <<<EOF
                 <p>Your file: {$sFileName} has been successfully received.</p>
                 <p>Type: {$sFileType}</p>
                 <p>Size: {$sFileSize}</p>
                 <p>Path: {$sFilePath}</p>
-                <p>Description: {$sFileDescription}</p>
-                <p>Groups: {$sFileGroups}</p>
+                <p>Description: {$sFileDescription}</p>                
                 <p>Tokens: {$sFileTokens}</p>
 EOF;
             /* insertion dans la BD des donnees et du fichier dans son repertoire*/ 
@@ -612,30 +535,38 @@ EOF;
 
             /* creation de l'objet File */
             $file = new File($sFileName, $sFileSize, $sFilePath, $sFileType);
-            $res = $file->doFileCreate();   //$res contient l'ID du fichier
+            $idFile = $file->doFileCreate();   //$idFile contient l'ID du fichier
 
-            //makes controls
-            if( ($res != -1) && ($res != -2) ){
-              /*traitement des tokens et insertion dans les tables keyword et keyword_file*/ 
-              
-              //recupération des différents keyword données à ce fichier
-              $keywords = explode(" ",$sFileTokens);
+            //makes controls to know whether the file was successfully created
+            if( ($idFile != -1) && ($idFile != -2) ){
+                /*traitement des tokens et insertion dans les tables keyword et keyword_file*/ 
+                
+                //recupération des différents keyword données à ce fichier
+                $keywords = explode(" ",$sFileTokens);
 
-              //insertion ds la table keyword
-              for($i = 0; $i < sizeof($keywords); $i++){
-                $keyword = new Keyword($keywords[$i] , $description = 'test'.$i);
-                $res1 = $keyword->doKeywordCreate();  // $res1 renvoit 1 si tout c'est bien passé, -1 sinon
-                //if($res1)
-              }
+                //insertion ds la table keyword
+                for($i = 0; $i < sizeof($keywords); $i++){
+                    $keyword = new Keyword($keywords[$i] , $description = 'test'.$i);
+                    $res1 = $keyword->doKeywordCreate();  // $res1 renvoit 1 si un NEW keyword a été créé, -1 le keyword existat deja                    
+                    
+                    //insertion dans la table keyword_file (id_file, id_keyword)
+                    $keywordFile = new keywordFile($idFile,$keywords[$i]);
+                    $res2 = $keywordFile->doKeywordFileCreate();                      
+                }             
 
-              //insertion dans la table keyword_file
-
-              //voir comment faire pour les groupes ds lesquels il est inséré
+                //Pour chaque fileGroup, créer l'association
+                //recupérer chaque nom de groupe, créer un objet FileGroup, recupérer idFileGroup par le nom, et enfin créer l'association FileGroupFile
+                for($j = 0; $j < sizeof($sFileGroups); $j++){
+                    $fileGroup = new FileGroup($sFileGroups[$j], $description='');
+                    $idFileGroup = $fileGroup->getIdFileGroupByName();
+                    $fileGroupFile = new FileGroupFile($idFile,$idFileGroup);
+                    $res3 = $fileGroupFile->doFileGroupFileCreate();
+                }  
 
               return "The file has been uploaded and data inserted on the database";
-            }
+            }//end if $idFile
             else{
-              return "something got wrong!";
+                  return "something got wrong!";
             }            
 
       }
@@ -890,21 +821,6 @@ $app->match('/api/fileGroups', function(Application $app){
 });
 
 
-
-/*********************************************************************************************************************************************************/
-/********** we can delete the file from the group of file without deleting it from the table file :-)   ***************************/
-/*********************************************************************************************************************************************************/
-$app->get('admin/fileDeleteGroup', function(Application $app,Request $req) {
-
-  $file_group_file = new FileGroupFile();
-  $file_group_file->setIdFile($req->query->get("id_file"));
-  $file_group_file->doFileGroupFileDelete();     
- return "partie à terminer";
-   
-});
-
-
-
 /*********************************************************************************************************************************************************/
 /********** the admin must to read the user request before accepting or denying.So the database return the  user information   ***************************/
 /*********************************************************************************************************************************************************/
@@ -914,56 +830,9 @@ $app->get('admin/readSubscription', function(Application $app,Request $req) {
  $user = $app['db']->fetchAssoc($sqlSubscription);       
  $userSubscription = $app->json($user);
  return $userSubscription;
-   
+
+       return "";     
 });
-
-
-
-/****************************to read one read whole information*****************************************************************************************************************************/
-$app->get('admin/readOneUserInfo', function(Application $app,Request $req) {
-
- $sqlSubscription =  "SELECT * FROM user where pseudo_user = '".$req->query->get('pseudo_user')."'";
- $user = $app['db']->fetchAssoc($sqlSubscription);
-
- $sqlUserGroup = "SELECT ug.name_user_group, ug.id_user_group FROM user u, user_group ug, user_group_user ugu WHERE 
-  u.id_user = ugu.id_user AND ugu.id_user_group = ug.id_user_group  AND u.pseudo_user = '".$req->query->get('pseudo_user')."'";
- $groups = $app['db']->fetchAll($sqlUserGroup);
-
- $sqlGroups = "SELECT * FROM user_group";
- $allGroups =  $app['db']->fetchAll($sqlGroups);
-$userSubscription = $app->json(array('user' => $user,'groups' => $groups,'allgroups'=>$allGroups));
- return $userSubscription;
-   
-});
-
-
-/****************************to read one user whole information*****************************************************************************************************************************/
-$app->get('admin/readOneViewInfos', function(Application $app,Request $req) {
-
-$sqlViewDetails = "SELECT description_file_group as descr from file_group where id_file_group = ".$req->query->get('id_file_group');
-$detailsView = $app['db']->fetchAssoc($sqlViewDetails);
- return $detailsView['descr'];
-   
-});
-
-
-
-/****************************to search files from a pattern typed  in the input text*****************************************************************************************************************************/
-$app->get('admin/search', function(Application $app,Request $req) {
-
-$sqlfiles = "SELECT f.name_file,f.path_file,f.id_file from file f,keyword k,keyword_file kf 
-where f.id_file = kf.id_file AND k.id_keyword=kf.id_keyword AND 
-k.id_keyword LIKE '%".$req->query->get('file')."%' UNION SELECT name_file,path_file,id_file  from file
-where name_file = '".$req->query->get('file')."'";
-$files = $app['db']->fetchAll($sqlfiles);
-
-echo $app['twig']->render('views/admin/fichier.html',array('files' =>$files));  
- return "";
-});
-
-
-
-
 
 
 // On lance l'application

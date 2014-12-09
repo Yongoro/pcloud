@@ -1,14 +1,22 @@
-.groupFilePart{
-	width: 700px;
+#groupFilePart{
+	width: 690px;
 	height: 500px;
+	border-radius: 0px;
 }
 
- .groupFilePart li{
+.groupFile4{
+	width: 680px;
+	margin-bottom: 1px;
+	margin-top: 1px;
+	border-radius: 0px;
+}
+
+ .groupFile4 li{
  display:inline-block;
  margin: 5px 5px 5px 5px;
 }
 
-.groupFilePart li a{
+.groupFile4 li a{
 height: 60px;
 width: 60px;
 display:inline-block;
@@ -17,5 +25,12 @@ background-image: url("../images/dossier.png");
 background-size: 60px 60px;
 background-repeat: none;
 color : black;
+font-weight: 800;
+
+}
+
+.nouveauGroup{
+	width: 680px;
+ left:600px;
 
 }

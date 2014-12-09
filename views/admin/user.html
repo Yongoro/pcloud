@@ -1,32 +1,24 @@
+<script src="/pcloud/views/js/file.js"></script>
 <div id="userPart">
    <h1> gestion des utilisateurs</h1>
-      <a class="lettre" href="/pcloud/index.php/admin/userToSearch?lettre=a">A</a> <a class="lettre" href="/pcloud/index.php/admin/userToSearch?lettre=b">B</a>
-   <a class="lettre" href="/pcloud/index.php/admin/userToSearch?lettre=c">C</a> <a class="lettre" href="/pcloud/index.php/admin/userToSearch?lettre=d">D</a> 
-   <a class="lettre" href="/pcloud/index.php/admin/userToSearch?lettre=e">E</a> <a class="lettre" href="/pcloud/index.php/admin/userToSearch?lettre=f">F</a>
-   <a class="lettre" href="/pcloud/index.php/admin/userToSearch?lettre=g">G</a> <a class="lettre" href="/pcloud/index.php/admin/userToSearch?lettre=h">H</a>
-   <a class="lettre" href="/pcloud/index.php/admin/userToSearch?lettre=i">I</a> <a class="lettre" href="/pcloud/index.php/admin/userToSearch?lettre=j">J</a>
-   <a class="lettre" href="/pcloud/index.php/admin/userToSearch?lettre=k">K</a> <a class="lettre" href="/pcloud/index.php/admin/userToSearch?lettre=l">L</a>
-   <a class="lettre" href="/pcloud/index.php/admin/userToSearch?lettre=m">M</a> <a class="lettre" href="/pcloud/index.php/admin/userToSearch?lettre=n">N</a>
-   <a class="lettre" href="/pcloud/index.php/admin/userToSearch?lettre=o">O</a> <a class="lettre" href="/pcloud/index.php/admin/userToSearch?lettre=p">P</a> 
-   <a class="lettre" href="/plcoud/index.php/admin/userToSearch?lettre=q">Q</a> <a class="lettre" href="/pcloud/index.php/admin/userToSearch?lettre=r">R</a> 
-   <a class="lettre" href="/pcloud/index.php/admin/userToSearch?lettre=s">S</a> <a class="lettre" href="/pcloud/index.php/admin/userToSearch?lettre=t">T</a> 
-   <a class="lettre" href="/pcloud/index.php/admin/userToSearch?lettre=u">U</a> <a class="lettre" href="/pcloud/index.php/admin/userToSearch?lettre=v">V</a> 
-   <a class="lettre" href="/plcoud/index.php/admin/userToSearch?lettre=w">W</a> <a class="lettre" href="/pcloud/index.php/admin/userToSearch?lettre=x">X</a>
-   <a class="lettre" href="/pcloud/index.php/admin/userToSearch?lettre=y">Y</a> <a class="lettre" href="/pcloud/index.php/admin/userToSearch?lettre=z">Z</a>
-            
+   <a href="">A</a> <a href="">B</a> <a href="">C</a> <a href="">D</a> <a href="">E</a> <a href="">F</a> <a href="">G</a>
+    <a href="">H</a> <a href="">I</a> <a href="">J</a> <a href="">K</a> <a href="">L</a> <a href="">M</a> <a href="">N</a>
+     <a href="">O</a> <a href="">P</a> <a href="">Q</a> <a href="">R</a> <a href="">S</a> <a href="">T</a> <a href="">U</a>
+      <a href="">V</a> <a href="">W</a> <a href="">X</a> <a href="">Y</a> <a href="">Z</a>
+     <ul>
+              {% for user  in users %}
               
-<ul> 
-    {% for user  in users %}
+
               <li>   
                 <div class="user">{{user.name_user}}</div>  
                   <div class="actionUser">
-                    <a href="admin/readOneUserInfo?pseudo_user={{user.pseudo_user}}" rel="popupEditUser" class="poplight">
+                    <a href="popupEditUser?" rel="popupEditUser" class="poplight">
                       <img src="/pcloud/views/images/afficher.png"/>
                     </a>
-                
-                    <a id="deleteFile" class ="supprimer" href="">
-                       <img src="/pcloud/views/images/supprimer.jpg"/>
+                    <a  class = "modifier" href="">
+                      <img src="/pcloud/views/images/modifier.png"/>
                     </a>
+                    <a id="deleteFile" class ="supprimer" href=""> <img src="/pcloud/views/images/supprimer.jpg"/></a>
                   </div>
                     
               </li>
@@ -37,51 +29,56 @@
   nouveau
 </button> 
 
-<!--POPUP START--> 
+<!--POPUP START-->
+<div id="popupShowUser" class="popup_block">
+  
+
+    <FORM>
+<fieldset>
+  <legend>editer</legend>
+      <label>   pr&eacutenom  </label><BR><input type="text"/><BR>
+      <label>   nom  </label><BR><input type="text"/><BR>
+      <label>   pseudo  </label><BR><input type="text"/><BR>
+      <label>   sexe  </label><BR><input type="text"/><BR>
+      <label>   email  </label><BR><input type="text"/><BR>
+</fieldset>
+ <button>  valider </button>
+</FORM> 
       
+</div>
 
 <div id="popupEditUser" class="popup_block">
-<div id="userInfo" >
+<div style="display:block">
+<div class="editUserDiv" >
 <fieldset>
   <legend>utilisateur</legend>
-      <label id="dateDemande"></label><BR> <BR>
-      <label id="nomDemandeurShow"></label><BR> <BR>
-      <label id="prenomDemandeurShow"></label><BR><BR>
-      <label id="pseudoDemandeurShow"></label><BR><BR>
-      <label id="emailDemandeurShow"></label><BR><BR>
-      <label id="sexDemandeurShow"></label><BR><BR>
+      <label>   pr&eacutenom  </label> alassane <BR><BR>
+      <label>   nom  </label> ndiaye <BR><BR>
+      <label>   pseudo  </label> hamman <BR><BR>
+      <label>   sexe  </label> m<BR><BR>
+      <label>   email  </label>alassndiaye1@gmail.com<BR><BR> 
 </fieldset>
-<div id="userAddRight">
-  <form method="" action="">
-    
-    <div class="rights"> 
-      <select name="groups" size="1">
-                            
-            <OPTION></OPTION>
-                               
-      </select>
-    </div>
-
-    <button>ajouter</button></form></div>
+<div class="addRightDiv"> 
+<form method="" action=""><select><option >sasaz<option >zazaa<option >zazaa</select><button>ajouter</button></form>
+</div> 
 </div>
-<div id="userEditRight">
+</div>
+<div class="editUserRightDiv">
 <FORM method="post" action=""> 
- <fieldset>
+   <fieldset>
   <legend>groupes</legend>
-<div id="userGroups"></div>
+  etudiant <INPUT type="checkbox" name="groupToUser" value=""> <BR>  
 </fieldset> 
-<button>retirer</button>
-
-
-</FORM> 
-</div>
+     <button>retirer</button>
+</FORM>      
 </div>
 
+</div>
 
 <!--END POPUP-->
 
 
-    <script src="/pcloud/views/js/confirmation.js"></script>
-    <script src="/pcloud/views/js/popup.js"></script>
+    <script src="../../../pcloud/web/views/js/confirmation.js"></script>
+    <script src="../../../pcloud/web/views/js/popup.js"></script>
   
 

@@ -12,14 +12,14 @@ display: block;
     height: 75px;
 }
 
-.fichierPart{
+#fichierPart{
 width :670px;
 height: 600px;
 padding: 0px 0px 0px 0px;
 margin: 0px 0px 0px 0px;
 }
 
-.fichierPart li{
+#fichierPart li{
 display: inline-block;
 width: 100px;
 height:120px	;
@@ -29,7 +29,7 @@ height:120px	;
 	margin-right: 3px;
 }
 
-.fichierPart img{
+#fichierPart img{
 width :20px;
 height:20px;
 }
