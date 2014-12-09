@@ -1,36 +1,35 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8" />
-        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/themes/base/jquery-ui.css">
+          <meta charset="utf-8" />
+          <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/themes/base/jquery-ui.css">
           <link rel="stylesheet" type="text/css" href="/pcloud/views/css/corps.css"/>
           <link rel="stylesheet" type="text/css" href="/pcloud/views/css/fichier.css"/>
           <link rel="stylesheet" type="text/css" href="/pcloud/views/css/views.css"/>
           <link rel="stylesheet" type="text/css" href="/pcloud/views/css/user.css"/>
           <link rel="stylesheet" type="text/css" href="/pcloud/views/css/groupes.css"/>
           <link rel="stylesheet" type="text/css" href="jquery-ui.css" />
-          <link rel="stylesheet" type="text/css" href="/pcloud/views/css/popup.css" />
+          <link rel="stylesheet" type="text/css" href="/pcloud/views/css/popup.css" />  
 
-        
-
-
-
-  <title>administration </title>
+          <title>administration </title>
     </head>
-    <body>
-    <header>
-      <span id="logo"></span>
-      <span><a id="accueil" href="/pcloud/index.php/admin/accueil">
-        <img src="/pcloud/views/images/accueil.jpeg" alt="gerer les fichiers" /></a></span>
-     <span><a id="file" href="/pcloud/index.php/admin/file">
-        <img src="/pcloud/views/images/fichier.jpg" alt="gerer les fichiers" /></a></span>
-      <span><a id="groupFile" href="/pcloud/index.php/admin/groupFile"><img src="/pcloud/views/images/dossier.png" alt="gérer les vues" /></a></span>
-       <span><a id="user" href="/pcloud/index.php/admin/user"><img src="/pcloud/views/images/user.png" alt="gérer les user" /></a></span>
-      <span><a id = "groupUser" href="/pcloud/index.php/admin/groupUser"><img src="/pcloud/views/images/users.jpg" alt="gerer les utilisateurs"/></a></span>
-      <span><input type="text" name="group_user"/></span>
-      <span><a id="showFile" href="/pcloud/index.php/admin/search"><img src="/pcloud/views/images/recherche.jpg" /></a></span>
-    </header>
 
+    <body>
+    
+      <p>{{msg}}</p>
+
+        <header>
+          <span id="logo"></span>
+          <span><a id="accueil" href="/pcloud/index.php/admin/accueil">
+            <img src="/pcloud/views/images/accueil.jpeg" alt="gerer les fichiers" /></a></span>
+          <span><a id="file" href="/pcloud/index.php/admin/file">
+            <img src="/pcloud/views/images/fichier.jpg" alt="gerer les fichiers" /></a></span>
+          <span><a id="groupFile" href="/pcloud/index.php/admin/groupFile"><img src="/pcloud/views/images/dossier.png" alt="gérer les vues" /></a></span>
+           <span><a id="user" href="/pcloud/index.php/admin/user"><img src="/pcloud/views/images/user.png" alt="gérer les user" /></a></span>
+          <span><a id = "groupUser" href="/pcloud/index.php/admin/groupUser"><img src="/pcloud/views/images/users.jpg" alt="gerer les utilisateurs"/></a></span>
+          <span><input type="text" name="group_user"/></span>
+          <span><a id="showFile" href="/pcloud/index.php/admin/search"><img src="/pcloud/views/images/recherche.jpg" /></a></span>
+        </header>
 
      <div  class ="content" >
      <div  class ="partieGauch" >
@@ -64,8 +63,6 @@
                                <input type="text" name ="group_fichier" id="group_fichier" required/><br><br>
                                <textarea id = "descr_group" name="descr_group" rows=4 cols=40> description</textarea><br><br>
                                <button id="ajoutGroup"> ajouter</button>
-
-
                          </fieldset>
                           <p id="messageAddGF"></p>
                   </form> 
@@ -74,7 +71,7 @@
                 <div class=" addGroupFichier"> 
                     <form class="addGroup"  method="post" action="../index.php/admin/addGroup">
                          <fieldset>
-                            <legend >nouveau group d'utilisateurs</legend>
+                            <legend >nouveau groupe d'utilisateurs</legend>
                                <label for="group_user">nom </label>
                                 <input type="text" name="group_user"required/><br><br>
                                <textarea name="description" rows=4 cols=40> description</textarea><br><br>

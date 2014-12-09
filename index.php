@@ -134,8 +134,7 @@
             if($res == 1){
               //inscription faite 
               $msg= $name." : your subscription request has been received, you will be contacted later";     
-              $user->doAcceptRequest();
-              
+              $user->doAcceptRequest();              
 
               $app['session']->set('user_created_and_granted',$pseudo); 
             }
@@ -503,7 +502,7 @@ $app->match('/admin/file/upload',function(Application $app, Request $req){
       } 
 
       /* Make sure that Upload Directory is properly configured and writable */
-      $path = 'upload/';
+      $path = 'upload/files';
       
       /***   version pure PHP ***/
 
@@ -521,15 +520,14 @@ $app->match('/admin/file/upload',function(Application $app, Request $req){
 
             $sFileDescription = $req->request->get('file_description');
             $sFileTokens = $req->request->get('file_tokens');
-            $sFileGroups = $req->request->get('file_groups');
+            $sFileGroups = $req->request->get('file_groups');//attention c'est un array
 
             echo <<<EOF
                 <p>Your file: {$sFileName} has been successfully received.</p>
                 <p>Type: {$sFileType}</p>
                 <p>Size: {$sFileSize}</p>
                 <p>Path: {$sFilePath}</p>
-                <p>Description: {$sFileDescription}</p>
-                <p>Groups: {$sFileGroups}</p>
+                <p>Description: {$sFileDescription}</p>                
                 <p>Tokens: {$sFileTokens}</p>
 EOF;
             /* insertion dans la BD des donnees et du fichier dans son repertoire*/ 
@@ -537,30 +535,38 @@ EOF;
 
             /* creation de l'objet File */
             $file = new File($sFileName, $sFileSize, $sFilePath, $sFileType);
-            $res = $file->doFileCreate();   //$res contient l'ID du fichier
+            $idFile = $file->doFileCreate();   //$idFile contient l'ID du fichier
 
-            //makes controls
-            if( ($res != -1) && ($res != -2) ){
-              /*traitement des tokens et insertion dans les tables keyword et keyword_file*/ 
-              
-              //recupération des différents keyword données à ce fichier
-              $keywords = explode(" ",$sFileTokens);
+            //makes controls to know whether the file was successfully created
+            if( ($idFile != -1) && ($idFile != -2) ){
+                /*traitement des tokens et insertion dans les tables keyword et keyword_file*/ 
+                
+                //recupération des différents keyword données à ce fichier
+                $keywords = explode(" ",$sFileTokens);
 
-              //insertion ds la table keyword
-              for($i = 0; $i < sizeof($keywords); $i++){
-                $keyword = new Keyword($keywords[$i] , $description = 'test'.$i);
-                $res1 = $keyword->doKeywordCreate();  // $res1 renvoit 1 si tout c'est bien passé, -1 sinon
-                //if($res1)
-              }
+                //insertion ds la table keyword
+                for($i = 0; $i < sizeof($keywords); $i++){
+                    $keyword = new Keyword($keywords[$i] , $description = 'test'.$i);
+                    $res1 = $keyword->doKeywordCreate();  // $res1 renvoit 1 si un NEW keyword a été créé, -1 le keyword existat deja                    
+                    
+                    //insertion dans la table keyword_file (id_file, id_keyword)
+                    $keywordFile = new keywordFile($idFile,$keywords[$i]);
+                    $res2 = $keywordFile->doKeywordFileCreate();                      
+                }             
 
-              //insertion dans la table keyword_file
-
-              //voir comment faire pour les groupes ds lesquels il est inséré
+                //Pour chaque fileGroup, créer l'association
+                //recupérer chaque nom de groupe, créer un objet FileGroup, recupérer idFileGroup par le nom, et enfin créer l'association FileGroupFile
+                for($j = 0; $j < sizeof($sFileGroups); $j++){
+                    $fileGroup = new FileGroup($sFileGroups[$j], $description='');
+                    $idFileGroup = $fileGroup->getIdFileGroupByName();
+                    $fileGroupFile = new FileGroupFile($idFile,$idFileGroup);
+                    $res3 = $fileGroupFile->doFileGroupFileCreate();
+                }  
 
               return "The file has been uploaded and data inserted on the database";
-            }
+            }//end if $idFile
             else{
-              return "something got wrong!";
+                  return "something got wrong!";
             }            
 
       }

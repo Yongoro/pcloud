@@ -2,37 +2,45 @@
 <html>
 	<head>
 		<title> test dialog</title>
-        <meta charset="utf-8" /> 
+        <meta charset="utf-8" />
+		<link rel="stylesheet" type="text/css" href="frame.css">
+               
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
-        <link rel="stylesheet" type="text/css" href="../../../pcloud/web/views/css/frame.css"/>
-        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>   
-        <script src="../../../pcloud/web/views/js/jquery.js"></script>
-        <script src="../../../pcloud/web/views/js/frame.js"></script>
-          <script src="../../../pcloud/web/views/js/frame1.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+       
+        <link href="sumoselect.css" rel="stylesheet" />
+
+               	
 	</head>
-	<body>
+	<body onload="refreshAll();">
         
         <button id="upload"> upload</button>
         <div id="feed"> </div>
         <div id="feed1">                
             <header>                
-                <a href="/index.php/admin" class="stuts">Back to home on <span>Admin Page</span></a>
+                <a href="/pcloud/index.php/admin" class="stuts">Back to home on <span>Admin Page</span></a>
             </header>
 
             <div class="container">
                 <div class="contr"><h2>You can select a file and click Upload button</h2></div> 
 
                 <div class="upload_form_cont">
-                    <form id="upload_form" enctype="multipart/form-data" method="post" action="/index.php/admin/file/upload/test">
-                        <div>                            
-                            <div><label for="image_file">Select a file</label></div>
-                            <div><input type="file" name="image_file" id="image_file" onchange="fileSelected();" /></div>
-                            <label>Description:</label><textarea name="file_description"> </textarea>
-                            <label>Insert Tokens:</label><textarea name="file_tokens"> </textarea>
+                    <form id="upload_form" enctype="multipart/form-data" method="post" action="/pcloud/index.php/admin/file/upload">
+                        <div>
                             <div id="bloc_file_groups">
                                 <div id="label_file_groups"><label> Select File's Groups:</label> </div>
-                                <div id="div_file_groups"><select multiple="multiple"  id="group_select" name="file_groups" size="1"></select></div>
-                            </div>                                
+                                <div id="div_file_groups">
+                                    <select multiple="multiple" class="SlectBox" id="group_select" name="file_groups[]" >
+                                        
+                                    </select>
+                                </div>                               
+                            </div>
+                            <label>Insert Tokens:</label><textarea name="file_tokens"> </textarea>
+                            <label>Description:</label><textarea name="file_description"> </textarea>                        
+                            <div><label for="image_file">Select a file</label></div>
+                            <div><input type="file" name="image_file" id="image_file" onchange="fileSelected();" /></div>   
+                                                            
                         </div>
                         
                         <div><input type="button" value="Upload" onclick="startUploading()" /></div>                        
@@ -71,6 +79,10 @@
             </div>            
         </div>
 
-    <!--    <script type="text/javascript" src="frame.js"></script> -->
+        <!--    <script type="text/javascript" src="frame.js"></script> -->
+
+        <script type="text/javascript" src="frame.js"></script> 
+        <script type="text/javascript" src="frame1.js"></script>
+        <script src="jquery.sumoselect.min.js"></script>  
 	</body>
 </html>

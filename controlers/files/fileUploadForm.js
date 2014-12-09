@@ -1,4 +1,4 @@
-// common variables
+pre// common variables
 
 var iBytesUploaded = 0;
 var iBytesTotal = 0;

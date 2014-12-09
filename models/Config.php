@@ -7,8 +7,10 @@
     require_once '/models/User.class.php';
     require_once '/models/File.class.php';
     require_once '/models/FileGroup.class.php';
+    require_once '/models/FileGroupFile.class.php';
     require_once '/models/UserGroup.class.php';
     require_once '/models/Keyword.class.php';
+    require_once '/models/KeywordFile.class.php';    
     require_once __DIR__.'/UserGroupFileGroup.class.php';
     //require_once '/web/models/TimeManagement.class.php';
 
@@ -21,7 +23,7 @@
     $app = new Silex\Application();
     $app['debug'] = true;
 
-    ////--------------------- doctrine --------------------------------------------
+    ////--------------------- doctrine -----------------------------------------------------------
     $app->register(new Silex\Provider\DoctrineServiceProvider(),
             array('db.options' => array(
                                     'driver'   => 'pdo_mysql',
@@ -33,7 +35,7 @@
     ))); //
 
 
-    ////------------------------Swift Mail Sender -------------------------------------
+    ////----------------------   Swift Mail Sender -------------------------------------------------
     $app->register(new Silex\Provider\SwiftmailerServiceProvider());
 
     $app['swiftmailer.options'] = array(

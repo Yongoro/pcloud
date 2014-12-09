@@ -13,9 +13,8 @@ function OnReady(){
     $("#dropUser").click(OnDropUser); // Abonne un callback à l'évènement "submit" du formulaire
     $("#search").click(OnSearch); // Abonne un callback à l'évènement "submit" du formulaire
     $("#accueil").click(Onaccueil); // Abonne un callback à l'évènement "submit" du formulair
-
-
 }
+
 function OncreateView(event){
     event.preventDefault();
     $.ajax({

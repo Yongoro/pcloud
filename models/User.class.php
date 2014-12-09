@@ -52,6 +52,9 @@
             $args = func_get_args();
 
             switch ($cpt) {
+            	case '0':
+            	break;
+
 				case '1':	
 				$this->setPseudoUser($args["0"]);
 				break;
@@ -110,7 +113,7 @@
 
 		public function doUserLogin($pass){
 
-			$ok = 1; //1-> existe bien et bons inputs, 2-> mot de passe erroné, 3-> inexistant ce gars
+			$ok = 1; //1-> existe bien et bons inputs, 2-> est dans la BD mais pas encore accepté 3-> mot de passe erroné, 4-> inexistant ce gars
 			$this->userExist->execute(array($this->getPseudoUser()));
 			$res = $this->userExist->fetch();			
 			
@@ -124,14 +127,18 @@
 					//ce gars existe
 					$this->userLogin->execute(array($this->getPseudoUser()));					
 				}
+				else if( strcmp($pass, $res['password_user'])==0 && strcasecmp($this->getStateRegistration(), "accepté")!=0){
+					//ce gars n'est pas encore accepté par l'admin
+					$ok = 2;
+				}
 				else{
-					//mot de passe different, mais  login existant
-					$ok =2;
+					//mot de passe different, mais  login existant 
+					$ok =3;
 				}				
 			}
 			else{
 				//utilisateur inexistant dans la base
-				$ok = 3;
+				$ok = 4;
 			}
 			
 			return $ok;
@@ -206,6 +213,10 @@
 				return 0; //on va traiter dans la fonction appelante càd index, dans ce cas il va envoyer un message a l'utilisateur	
 			}
 			return $result;
+		}
+
+		public function doUserUpdate(){
+
 		}
 
 		/********************************************************************************/
