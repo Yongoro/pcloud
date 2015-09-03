@@ -42,7 +42,7 @@
         'host' => 'smtp.gmail.com',
         'port' => 465,
         'username' => 'yongoro.cloud@gmail.com',
-        'password' => 'yongoro14',
+        'password' => 'xxxxxxxx',
         'encryption' => 'ssl',
         'auth_mode' => 'login',
         'transport'=> 'smtp',
